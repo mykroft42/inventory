@@ -4,14 +4,16 @@ import { inventoryApi, InventoryItem } from '../services/inventoryApi';
 const InventoryList: React.FC = () => {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updatingItems, setUpdatingItems] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string | null>(null);
 
   const fetchItems = async () => {
     try {
+      setError(null);
       const data = await inventoryApi.getAll();
       setItems(data);
     } catch (err) {
-      setError('Error loading inventory');
+      setError('Failed to load inventory. Please check your connection and try again.');
     } finally {
       setLoading(false);
     }
@@ -24,6 +26,8 @@ const InventoryList: React.FC = () => {
   const handleQuantityChange = async (id: number, newQuantity: number) => {
     if (newQuantity < 0) return;
 
+    setUpdatingItems(prev => new Set(prev).add(id));
+
     try {
       const item = items.find(i => i.id === id);
       if (item) {
@@ -33,43 +37,98 @@ const InventoryList: React.FC = () => {
           category: item.category,
           expirationDate: item.expirationDate
         });
-        // Refresh the list
-        await fetchItems();
+        // Update local state optimistically
+        setItems(prevItems =>
+          prevItems.map(item =>
+            item.id === id ? { ...item, quantity: newQuantity } : item
+          )
+        );
       }
     } catch (err) {
-      setError('Error updating quantity');
+      setError('Failed to update quantity. Please try again.');
+    } finally {
+      setUpdatingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
     }
   };
 
   if (loading) {
-    return <div>Loading inventory...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading your inventory...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={fetchItems} className="btn btn-secondary">Retry</button>
+      </div>
+    );
   }
 
   if (items.length === 0) {
-    return <div>No inventory items found</div>;
+    return (
+      <div className="empty-state">
+        <h2>Your inventory is empty</h2>
+        <p>Start by adding your first item to keep track of your household supplies.</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h2>Inventory Items</h2>
-      <ul>
+    <div className="inventory-list">
+      <h2>Inventory Items ({items.length})</h2>
+      <div className="inventory-grid" role="list" aria-label="Inventory items">
         {items.map((item) => (
-          <li key={item.id} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ddd' }}>
+          <div key={item.id} className="inventory-item" role="listitem">
             <h3>{item.name}</h3>
-            <p>Category: {item.category}</p>
-            {item.expirationDate && <p>Expires: {new Date(item.expirationDate).toLocaleDateString()}</p>}
-            <div>
-              <button onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>-</button>
-              <span style={{ margin: '0 10px' }}>Quantity: {item.quantity}</span>
-              <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
+            <p className="category">Category: {item.category}</p>
+            {item.expirationDate && (
+              <p className="expiration">
+                Expires: {new Date(item.expirationDate).toLocaleDateString()}
+                {new Date(item.expirationDate) < new Date() && (
+                  <span className="expired" aria-label="This item has expired"> (Expired)</span>
+                )}
+              </p>
+            )}
+            <div className="quantity-controls" role="group" aria-label={`Quantity controls for ${item.name}`}>
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                disabled={updatingItems.has(item.id)}
+                className="btn btn-small"
+                aria-label={`Decrease quantity of ${item.name} by 1`}
+                type="button"
+              >
+                -
+              </button>
+              <span
+                className="quantity"
+                aria-label={`Current quantity: ${updatingItems.has(item.id) ? 'updating' : item.quantity}`}
+                role="status"
+                aria-live="polite"
+              >
+                {updatingItems.has(item.id) ? '...' : item.quantity}
+              </span>
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                disabled={updatingItems.has(item.id)}
+                className="btn btn-small"
+                aria-label={`Increase quantity of ${item.name} by 1`}
+                type="button"
+              >
+                +
+              </button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -83,7 +83,9 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="add-item-form">
+    <form onSubmit={handleSubmit} className="add-item-form" role="form" aria-labelledby="add-item-title">
+      <h2 id="add-item-title">Add New Inventory Item</h2>
+
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input
@@ -93,8 +95,12 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           value={formData.name}
           onChange={handleChange}
           className={errors.name ? 'error' : ''}
+          aria-describedby={errors.name ? "name-error" : undefined}
+          aria-invalid={!!errors.name}
+          required
+          aria-label="Item name"
         />
-        {errors.name && <span className="error-message">{errors.name}</span>}
+        {errors.name && <span id="name-error" className="error-message" role="alert">{errors.name}</span>}
       </div>
 
       <div className="form-group">
@@ -107,8 +113,12 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           onChange={handleChange}
           min="1"
           className={errors.quantity ? 'error' : ''}
+          aria-describedby={errors.quantity ? "quantity-error" : undefined}
+          aria-invalid={!!errors.quantity}
+          required
+          aria-label="Item quantity"
         />
-        {errors.quantity && <span className="error-message">{errors.quantity}</span>}
+        {errors.quantity && <span id="quantity-error" className="error-message" role="alert">{errors.quantity}</span>}
       </div>
 
       <div className="form-group">
@@ -119,13 +129,17 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           value={formData.category}
           onChange={handleChange}
           className={errors.category ? 'error' : ''}
+          aria-describedby={errors.category ? "category-error" : undefined}
+          aria-invalid={!!errors.category}
+          required
+          aria-label="Item category"
         >
           <option value="">Select category</option>
           <option value="Groceries">Groceries</option>
           <option value="Medications">Medications</option>
           <option value="Consumables">Consumables</option>
         </select>
-        {errors.category && <span className="error-message">{errors.category}</span>}
+        {errors.category && <span id="category-error" className="error-message" role="alert">{errors.category}</span>}
       </div>
 
       <div className="form-group">
@@ -136,14 +150,21 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           name="expirationDate"
           value={formData.expirationDate}
           onChange={handleChange}
+          aria-label="Item expiration date"
         />
       </div>
 
-      {submitError && <div className="error-message">{submitError}</div>}
+      {submitError && <div className="error-message" role="alert" aria-live="assertive">{submitError}</div>}
 
-      <button type="submit" disabled={isSubmitting} className="btn">
-        {isSubmitting ? 'Adding...' : 'Add Item'}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="btn"
+        aria-describedby={isSubmitting ? "submitting-status" : undefined}
+      >
+        {isSubmitting ? 'Adding Item...' : 'Add Item'}
       </button>
+      {isSubmitting && <span id="submitting-status" className="sr-only">Submitting form, please wait</span>}
     </form>
   );
 };
