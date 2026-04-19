@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
+
+function Home() {
+  return (
+    <div className="container">
+      <h1>Household Inventory</h1>
+      <p>Manage your groceries, medications, and consumables</p>
+      <a href="/inventory" className="btn">View Inventory</a>
+    </div>
+  );
+}
+
+function Inventory() {
+  return (
+    <div className="container">
+      <h1>Inventory</h1>
+      <p>Inventory management coming soon...</p>
+      <a href="/" className="btn">Back to Home</a>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/inventory" element={<Inventory />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
