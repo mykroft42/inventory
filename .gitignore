@@ -28,6 +28,7 @@ lerna-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 dist/
 build/
+coverage/
 .next/
 out/
 .env*

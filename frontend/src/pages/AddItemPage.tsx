@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AddItemForm from '../components/AddItemForm';
 
 const AddItemPage: React.FC = () => {
@@ -11,11 +11,13 @@ const AddItemPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Add New Item</h1>
+    <main className="container">
+      <section className="page-header">
+        <h1>Add New Item</h1>
+        <Link to="/inventory" className="btn btn-secondary">Back to Inventory</Link>
+      </section>
       <AddItemForm onItemAdded={handleItemAdded} />
-      <a href="/inventory" className="btn">Back to Inventory</a>
-    </div>
+    </main>
   );
 };
 

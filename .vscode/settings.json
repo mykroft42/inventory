@@ -11,6 +11,8 @@
         "npm install": true,
         "git add": true,
         "dotnet test": true,
-        "npx react-scripts": true
+        "npx react-scripts": true,
+        "npx tsc": true,
+        "npm --prefix frontend": true
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import InventoryList from './InventoryList';
 import { inventoryApi } from '../services/inventoryApi';
@@ -18,7 +18,7 @@ describe('InventoryList', () => {
 
     render(<InventoryList />);
 
-    expect(screen.getByText('Loading inventory...')).toBeInTheDocument();
+    expect(screen.getByText('Loading your inventory...')).toBeInTheDocument();
   });
 
   test('renders inventory items when loaded', async () => {
@@ -50,8 +50,8 @@ describe('InventoryList', () => {
     });
 
     expect(screen.getByText('Bread')).toBeInTheDocument();
-    expect(screen.getByText('Quantity: 2')).toBeInTheDocument();
-    expect(screen.getByText('Quantity: 1')).toBeInTheDocument();
+    expect(screen.getByLabelText('Current quantity: 2')).toBeInTheDocument();
+    expect(screen.getByLabelText('Current quantity: 1')).toBeInTheDocument();
   });
 
   test('renders error message when API fails', async () => {
@@ -60,7 +60,7 @@ describe('InventoryList', () => {
     render(<InventoryList />);
 
     await waitFor(() => {
-      expect(screen.getByText('Error loading inventory')).toBeInTheDocument();
+      expect(screen.getByText('Failed to fetch')).toBeInTheDocument();
     });
   });
 
@@ -70,7 +70,7 @@ describe('InventoryList', () => {
     render(<InventoryList />);
 
     await waitFor(() => {
-      expect(screen.getByText('No inventory items found')).toBeInTheDocument();
+      expect(screen.getByText('Your inventory is empty')).toBeInTheDocument();
     });
   });
 
@@ -102,7 +102,9 @@ describe('InventoryList', () => {
       expect(mockInventoryApi.update).toHaveBeenCalledWith(1, {
         name: 'Milk',
         quantity: 3,
-        category: 'Groceries'
+        category: 'Groceries',
+        expirationDate: undefined
       });
     });
   });
+});

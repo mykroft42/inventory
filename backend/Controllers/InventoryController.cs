@@ -64,6 +64,10 @@ public class InventoryController : ControllerBase
             var createdItem = await _inventoryService.AddItemAsync(item);
             return CreatedAtAction(nameof(GetById), new { id = createdItem.Id }, createdItem);
         }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = "Validation failed", details = ex.Message });
+        }
         catch (InvalidOperationException ex)
         {
             return Conflict(new { error = "Item already exists", details = ex.Message });
@@ -99,6 +103,14 @@ public class InventoryController : ControllerBase
                 return NotFound(new { error = $"Inventory item with ID {id} not found" });
             }
             return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = "Validation failed", details = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { error = "Update failed", details = ex.Message });
         }
         catch (Exception ex)
         {

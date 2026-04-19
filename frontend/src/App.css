@@ -13,6 +13,54 @@ body {
   padding: 20px;
 }
 
+.topbar {
+  background-color: #0d6efd;
+  color: white;
+  padding: 10px 20px;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.topbar-link {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.topbar-link:hover,
+.topbar-link:focus-visible {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-nav,
+.action-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.main-content {
+  padding: 20px 0;
+}
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -166,6 +214,12 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 15px;
+  gap: 8px;
+}
+
+.quantity-label {
+  color: #555;
+  font-size: 14px;
 }
 
 .quantity {

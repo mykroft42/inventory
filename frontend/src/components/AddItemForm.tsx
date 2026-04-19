@@ -23,9 +23,9 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
       newErrors.name = 'Name is required';
     }
 
-    const quantity = parseInt(formData.quantity);
-    if (!formData.quantity || isNaN(quantity) || quantity <= 0) {
-      newErrors.quantity = 'Quantity must be greater than 0';
+    const quantity = parseInt(formData.quantity, 10);
+    if (formData.quantity === '' || isNaN(quantity) || quantity < 0) {
+      newErrors.quantity = 'Quantity cannot be negative';
     }
 
     if (!formData.category) {
@@ -49,9 +49,9 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
     try {
       const itemData = {
         name: formData.name.trim(),
-        quantity: parseInt(formData.quantity),
+        quantity: parseInt(formData.quantity, 10),
         category: formData.category as 'Groceries' | 'Medications' | 'Consumables',
-        ...(formData.expirationDate && { expirationDate: formData.expirationDate })
+        expirationDate: formData.expirationDate || undefined,
       };
 
       await inventoryApi.create(itemData);
@@ -66,7 +66,11 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
       });
       setErrors({});
     } catch (error) {
-      setSubmitError('Failed to add item');
+      if (error instanceof Error) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError('Failed to add item. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -79,6 +83,10 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+
+    if (submitError) {
+      setSubmitError(null);
     }
   };
 
@@ -111,7 +119,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
           name="quantity"
           value={formData.quantity}
           onChange={handleChange}
-          min="1"
+          min="0"
           className={errors.quantity ? 'error' : ''}
           aria-describedby={errors.quantity ? "quantity-error" : undefined}
           aria-invalid={!!errors.quantity}

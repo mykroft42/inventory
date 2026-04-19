@@ -13,7 +13,11 @@ const InventoryList: React.FC = () => {
       const data = await inventoryApi.getAll();
       setItems(data);
     } catch (err) {
-      setError('Failed to load inventory. Please check your connection and try again.');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to load inventory. Please check your connection and try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -45,7 +49,11 @@ const InventoryList: React.FC = () => {
         );
       }
     } catch (err) {
-      setError('Failed to update quantity. Please try again.');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to update quantity. Please try again.');
+      }
     } finally {
       setUpdatingItems(prev => {
         const newSet = new Set(prev);
@@ -108,6 +116,7 @@ const InventoryList: React.FC = () => {
               >
                 -
               </button>
+              <span className="quantity-label">Quantity:</span>
               <span
                 className="quantity"
                 aria-label={`Current quantity: ${updatingItems.has(item.id) ? 'updating' : item.quantity}`}

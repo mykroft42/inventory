@@ -75,7 +75,7 @@ describe('AddItemForm', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add Item' }));
 
     expect(screen.getByText('Name is required')).toBeInTheDocument();
-    expect(screen.getByText('Quantity must be greater than 0')).toBeInTheDocument();
+    expect(screen.getByText('Quantity cannot be negative')).toBeInTheDocument();
     expect(screen.getByText('Category is required')).toBeInTheDocument();
   });
 });
