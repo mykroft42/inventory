@@ -5,6 +5,7 @@ const InventoryPage: React.FC = () => {
   return (
     <div className="container">
       <h1>Household Inventory</h1>
+      <a href="/add-item" className="btn">Add New Item</a>
       <InventoryList />
       <a href="/" className="btn">Back to Home</a>
     </div>

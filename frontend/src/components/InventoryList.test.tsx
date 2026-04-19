@@ -73,4 +73,36 @@ describe('InventoryList', () => {
       expect(screen.getByText('No inventory items found')).toBeInTheDocument();
     });
   });
-});
+
+  test('updates item quantity when + button is clicked', async () => {
+    const mockItems = [
+      {
+        id: 1,
+        name: 'Milk',
+        quantity: 2,
+        category: 'Groceries' as const,
+        createdAt: '2023-01-01T00:00:00Z',
+        updatedAt: '2023-01-01T00:00:00Z'
+      }
+    ];
+
+    mockInventoryApi.getAll.mockResolvedValue(mockItems);
+    mockInventoryApi.update.mockResolvedValue();
+
+    render(<InventoryList />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Milk')).toBeInTheDocument();
+    });
+
+    const increaseButton = screen.getByText('+');
+    fireEvent.click(increaseButton);
+
+    await waitFor(() => {
+      expect(mockInventoryApi.update).toHaveBeenCalledWith(1, {
+        name: 'Milk',
+        quantity: 3,
+        category: 'Groceries'
+      });
+    });
+  });

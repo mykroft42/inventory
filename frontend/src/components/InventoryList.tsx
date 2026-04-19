@@ -6,20 +6,40 @@ const InventoryList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const data = await inventoryApi.getAll();
-        setItems(data);
-      } catch (err) {
-        setError('Error loading inventory');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchItems = async () => {
+    try {
+      const data = await inventoryApi.getAll();
+      setItems(data);
+    } catch (err) {
+      setError('Error loading inventory');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchItems();
   }, []);
+
+  const handleQuantityChange = async (id: number, newQuantity: number) => {
+    if (newQuantity < 0) return;
+
+    try {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        await inventoryApi.update(id, {
+          name: item.name,
+          quantity: newQuantity,
+          category: item.category,
+          expirationDate: item.expirationDate
+        });
+        // Refresh the list
+        await fetchItems();
+      }
+    } catch (err) {
+      setError('Error updating quantity');
+    }
+  };
 
   if (loading) {
     return <div>Loading inventory...</div>;
@@ -38,11 +58,15 @@ const InventoryList: React.FC = () => {
       <h2>Inventory Items</h2>
       <ul>
         {items.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ddd' }}>
             <h3>{item.name}</h3>
-            <p>Quantity: {item.quantity}</p>
             <p>Category: {item.category}</p>
             {item.expirationDate && <p>Expires: {new Date(item.expirationDate).toLocaleDateString()}</p>}
+            <div>
+              <button onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>-</button>
+              <span style={{ margin: '0 10px' }}>Quantity: {item.quantity}</span>
+              <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
+            </div>
           </li>
         ))}
       </ul>

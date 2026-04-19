@@ -107,19 +107,19 @@ Each user story can be implemented and tested independently once foundational ta
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T022 [P] [US2] Unit test for inventory service AddItem in backend/Tests/InventoryServiceTests.cs
-- [ ] T023 [P] [US2] Integration test for POST /api/inventory endpoint in backend/Tests/InventoryControllerTests.cs
-- [ ] T024 [P] [US2] React component test for AddItemForm in frontend/src/components/AddItemForm.test.tsx
+- [x] T022 [P] [US2] Unit test for inventory service AddItem in backend/Tests/InventoryServiceTests.cs
+- [x] T023 [P] [US2] Integration test for POST /api/inventory endpoint in backend/Tests/InventoryControllerTests.cs
+- [x] T024 [P] [US2] React component test for AddItemForm in frontend/src/components/AddItemForm.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implement InventoryService.AddItem method in backend/Services/InventoryService.cs
-- [ ] T026 [US2] Implement POST /api/inventory endpoint in backend/Controllers/InventoryController.cs
-- [ ] T027 [US2] Add validation for item creation in backend/Models/InventoryItem.cs
-- [ ] T028 [US2] Create AddItemForm React component in frontend/src/components/AddItemForm.tsx
-- [ ] T029 [US2] Create AddItemPage component in frontend/src/pages/AddItemPage.tsx
-- [ ] T030 [US2] Add add item route and navigation to React app
-- [ ] T031 [US2] Update InventoryList to refresh after adding items
+- [x] T025 [US2] Implement InventoryService.AddItem method in backend/Services/InventoryService.cs
+- [x] T026 [US2] Implement POST /api/inventory endpoint in backend/Controllers/InventoryController.cs
+- [x] T027 [US2] Add validation for item creation in backend/Models/InventoryItem.cs
+- [x] T028 [US2] Create AddItemForm React component in frontend/src/components/AddItemForm.tsx
+- [x] T029 [US2] Create AddItemPage component in frontend/src/pages/AddItemPage.tsx
+- [x] T030 [US2] Add add item route and navigation to React app
+- [x] T031 [US2] Update InventoryList to refresh after adding items
 
 **Checkpoint**: User Story 2 complete - users can add and view items
 
@@ -135,17 +135,17 @@ Each user story can be implemented and tested independently once foundational ta
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T032 [P] [US3] Unit test for inventory service UpdateItemQuantity in backend/Tests/InventoryServiceTests.cs
-- [ ] T033 [P] [US3] Integration test for PUT /api/inventory/{id} endpoint in backend/Tests/InventoryControllerTests.cs
-- [ ] T034 [P] [US3] React component test for quantity update functionality
+- [x] T032 [P] [US3] Unit test for inventory service UpdateItemQuantity in backend/Tests/InventoryServiceTests.cs
+- [x] T033 [P] [US3] Integration test for PUT /api/inventory/{id} endpoint in backend/Tests/InventoryControllerTests.cs
+- [x] T034 [P] [US3] React component test for quantity update functionality
 
 ### Implementation for User Story 3
 
-- [ ] T035 [US3] Implement InventoryService.UpdateItemQuantity method in backend/Services/InventoryService.cs
-- [ ] T036 [US3] Implement PUT /api/inventory/{id} endpoint in backend/Controllers/InventoryController.cs
-- [ ] T037 [US3] Add quantity update UI to InventoryList component
-- [ ] T038 [US3] Add validation for quantity updates
-- [ ] T039 [US3] Implement audit logging for quantity changes
+- [x] T035 [US3] Implement InventoryService.UpdateItemQuantity method in backend/Services/InventoryService.cs
+- [x] T036 [US3] Implement PUT /api/inventory/{id} endpoint in backend/Controllers/InventoryController.cs
+- [x] T037 [US3] Add quantity update UI to InventoryList component
+- [x] T038 [US3] Add validation for quantity updates
+- [x] T039 [US3] Implement audit logging for quantity changes
 
 **Checkpoint**: User Story 3 complete - full CRUD functionality available
 

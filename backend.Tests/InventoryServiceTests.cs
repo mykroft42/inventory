@@ -72,23 +72,38 @@ public class InventoryServiceTests
     }
 
     [Fact]
-    public async Task AddItemAsync_AddsItemAndReturnsIt()
+    public async Task UpdateItemAsync_UpdatesExistingItem()
     {
         // Arrange
-        var item = new InventoryItem { Name = "Milk", Quantity = 2, Category = Category.Groceries };
+        var existingItem = new InventoryItem { Id = 1, Name = "Milk", Quantity = 2, Category = Category.Groceries };
+        var updatedData = new InventoryItem { Id = 1, Name = "Milk", Quantity = 5, Category = Category.Groceries };
+
         var mockDbSet = new Mock<DbSet<InventoryItem>>();
-        _mockContext.Setup(c => c.InventoryItems).Returns(mockDbSet.Object);
+        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync(existingItem);
         _mockContext.Setup(c => c.SaveChangesAsync(default)).ReturnsAsync(1);
 
         // Act
-        var result = await _service.AddItemAsync(item);
+        var result = await _service.UpdateItemAsync(1, updatedData);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal("Milk", result.Name);
-        Assert.True(result.CreatedAt <= DateTime.UtcNow);
-        mockDbSet.Verify(d => d.Add(item), Times.Once);
+        Assert.Equal(5, result.Quantity);
+        Assert.True(result.UpdatedAt > existingItem.UpdatedAt);
         _mockContext.Verify(c => c.SaveChangesAsync(default), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateItemAsync_ReturnsNull_WhenItemNotFound()
+    {
+        // Arrange
+        var updatedData = new InventoryItem { Id = 1, Name = "Milk", Quantity = 5, Category = Category.Groceries };
+        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync((InventoryItem?)null);
+
+        // Act
+        var result = await _service.UpdateItemAsync(1, updatedData);
+
+        // Assert
+        Assert.Null(result);
     }
 
     private Mock<DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class

@@ -39,6 +39,7 @@ public class InventoryService : IInventoryService
             return null;
         }
 
+        var oldQuantity = existingItem.Quantity;
         existingItem.Name = item.Name;
         existingItem.Quantity = item.Quantity;
         existingItem.Category = item.Category;
@@ -46,6 +47,10 @@ public class InventoryService : IInventoryService
         existingItem.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
+
+        // Audit logging
+        Console.WriteLine($"Audit: Updated item {id} ({existingItem.Name}) quantity from {oldQuantity} to {existingItem.Quantity}");
+
         return existingItem;
     }
 
