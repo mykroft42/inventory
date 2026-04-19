@@ -44,11 +44,11 @@ Each user story can be implemented and tested independently once foundational ta
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create ASP.NET Core Web API project in backend/ directory
-- [ ] T002 Create React TypeScript project in frontend/ directory
-- [ ] T003 Configure SQLite database with Entity Framework Core migrations
-- [ ] T004 Setup CORS and JSON configuration for API
-- [ ] T005 Configure npm scripts for concurrent backend/frontend development
+- [x] T001 Create ASP.NET Core Web API project in backend/ directory
+- [x] T002 Create React TypeScript project in frontend/ directory
+- [x] T003 Configure SQLite database with Entity Framework Core migrations
+- [x] T004 Setup CORS and JSON configuration for API
+- [x] T005 Configure npm scripts for concurrent backend/frontend development
 
 ---
 

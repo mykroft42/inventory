@@ -1,0 +1,45 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.suo
+*.tmp
+*.log
+*.vs/
+*.vscode/settings.json
+*.vscode/tasks.json
+*.vscode/launch.json
+packages/
+*.nupkg
+*.snupkg
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+dist/
+build/
+.next/
+out/
+.env*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
