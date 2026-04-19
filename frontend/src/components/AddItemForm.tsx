@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { inventoryApi, InventoryItem } from '../services/inventoryApi';
+import { inventoryApi } from '../services/inventoryApi';
 
 interface AddItemFormProps {
   onItemAdded: () => void;
@@ -91,7 +91,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="add-item-form" role="form" aria-labelledby="add-item-title">
+    <form onSubmit={handleSubmit} className="add-item-form" aria-labelledby="add-item-title">
       <h2 id="add-item-title">Add New Inventory Item</h2>
 
       <div className="form-group">
