@@ -120,6 +120,7 @@ Each user story can be implemented and tested independently once foundational ta
 - [x] T029 [US2] Create AddItemPage component in frontend/src/pages/AddItemPage.tsx
 - [x] T030 [US2] Add add item route and navigation to React app
 - [x] T031 [US2] Update InventoryList to refresh after adding items
+- [ ] T031a [US2] Implement audit logging for item creation (timestamp, before/after values) consistent with T039
 
 **Checkpoint**: User Story 2 complete - users can add and view items
 
@@ -137,7 +138,7 @@ Each user story can be implemented and tested independently once foundational ta
 
 - [x] T032 [P] [US3] Unit test for inventory service UpdateItemQuantity in backend/Tests/InventoryServiceTests.cs
 - [x] T033 [P] [US3] Integration test for PUT /api/inventory/{id} endpoint in backend/Tests/InventoryControllerTests.cs
-- [x] T034 [P] [US3] React component test for quantity update functionality
+- [x] T034 [P] [US3] React component test for quantity update functionality in frontend/src/components/InventoryList.test.tsx
 
 ### Implementation for User Story 3
 
@@ -145,7 +146,7 @@ Each user story can be implemented and tested independently once foundational ta
 - [x] T036 [US3] Implement PUT /api/inventory/{id} endpoint in backend/Controllers/InventoryController.cs
 - [x] T037 [US3] Add quantity update UI to InventoryList component
 - [x] T038 [US3] Add validation for quantity updates
-- [x] T039 [US3] Implement audit logging for quantity changes
+- [x] T039 [US3] Implement audit logging for quantity changes (timestamp, before/after values; actor deferred — see plan.md Complexity Tracking)
 
 **Checkpoint**: User Story 3 complete - full CRUD functionality available
 
@@ -155,14 +156,14 @@ Each user story can be implemented and tested independently once foundational ta
 
 **Purpose**: Quality improvements and cross-cutting concerns applied across all user stories
 
-- [ ] T040 Add comprehensive error handling and user-friendly error messages
-- [ ] T041 Implement data validation and sanitization across all endpoints
-- [ ] T042 Add loading states and empty states to frontend components
-- [ ] T043 Implement responsive design optimizations for mobile devices
-- [ ] T044 Add accessibility improvements (WCAG 2.1 AA compliance)
-- [ ] T045 Configure production build and deployment scripts
-- [ ] T046 Add end-to-end tests for complete user journeys
-- [ ] T047 Performance optimization and code cleanup
-- [ ] T048 Documentation updates and README completion
+- [x] T040 Add comprehensive error handling and user-friendly error messages
+- [x] T041 Implement input sanitization and injection protection across all endpoints (field-presence validation is covered by T027/T038; this task covers XSS/injection sanitization and malformed payload rejection)
+- [x] T042 Add loading states and empty states to frontend components
+- [x] T043 Implement responsive design optimizations for mobile devices
+- [x] T044 Add accessibility improvements (WCAG 2.1 AA compliance)
+- [x] T045 Configure production build and deployment scripts
+- [x] T046 Add end-to-end tests for complete user journeys using Playwright (view inventory, add item, update quantity)
+- [x] T047 Performance optimization: seed 500 items and validate inventory list loads in ≤ 2s P95 (SC-001, SC-003); profile and optimize any slow queries
+- [x] T048 Documentation updates and README completion
 
 **Final Checkpoint**: Feature complete and production-ready
