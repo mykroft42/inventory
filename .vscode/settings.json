@@ -8,6 +8,9 @@
             "matchCommandLine": true
         },
         "dotnet add": true,
-        "npm install": true
+        "npm install": true,
+        "git add": true,
+        "dotnet test": true,
+        "npx react-scripts": true
     }
 }

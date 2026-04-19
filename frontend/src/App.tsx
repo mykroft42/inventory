@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
+import InventoryPage from './pages/InventoryPage';
 
 function Home() {
   return (
@@ -12,22 +13,12 @@ function Home() {
   );
 }
 
-function Inventory() {
-  return (
-    <div className="container">
-      <h1>Inventory</h1>
-      <p>Inventory management coming soon...</p>
-      <a href="/" className="btn">Back to Home</a>
-    </div>
-  );
-}
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/inventory" element={<InventoryPage />} />
       </Routes>
     </BrowserRouter>
   );

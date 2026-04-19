@@ -58,13 +58,13 @@ Each user story can be implemented and tested independently once foundational ta
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Create InventoryItem entity model in backend/Models/InventoryItem.cs
-- [ ] T007 Create InventoryContext with EF Core in backend/Data/InventoryContext.cs
-- [ ] T008 Setup dependency injection for services and database context
-- [ ] T009 Create base API controller structure in backend/Controllers/InventoryController.cs
-- [ ] T010 Setup React routing and basic app structure in frontend/src/App.tsx
-- [ ] T011 Create inventory API service in frontend/src/services/inventoryApi.ts
-- [ ] T012 Configure error handling middleware for API
+- [x] T006 Create InventoryItem entity model in backend/Models/InventoryItem.cs
+- [x] T007 Create InventoryContext with EF Core in backend/Data/InventoryContext.cs
+- [x] T008 Setup dependency injection for services and database context
+- [x] T009 Create base API controller structure in backend/Controllers/InventoryController.cs
+- [x] T010 Setup React routing and basic app structure in frontend/src/App.tsx
+- [x] T011 Create inventory API service in frontend/src/services/inventoryApi.ts
+- [x] T012 Configure error handling middleware for API
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -80,18 +80,18 @@ Each user story can be implemented and tested independently once foundational ta
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Unit test for inventory service GetAllItems in backend/Tests/InventoryServiceTests.cs
-- [ ] T014 [P] [US1] Integration test for GET /api/inventory endpoint in backend/Tests/InventoryControllerTests.cs
-- [ ] T015 [P] [US1] React component test for InventoryList in frontend/src/components/InventoryList.test.tsx
+- [x] T013 [P] [US1] Unit test for inventory service GetAllItems in backend/Tests/InventoryServiceTests.cs
+- [x] T014 [P] [US1] Integration test for GET /api/inventory endpoint in backend/Tests/InventoryControllerTests.cs
+- [x] T015 [P] [US1] React component test for InventoryList in frontend/src/components/InventoryList.test.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T016 [US1] Implement InventoryService.GetAllItems method in backend/Services/InventoryService.cs
-- [ ] T017 [US1] Implement GET /api/inventory endpoint in backend/Controllers/InventoryController.cs
-- [ ] T018 [US1] Create InventoryList React component in frontend/src/components/InventoryList.tsx
-- [ ] T019 [US1] Create InventoryPage component in frontend/src/pages/InventoryPage.tsx
-- [ ] T020 [US1] Add inventory route to React router in frontend/src/App.tsx
-- [ ] T021 [US1] Connect frontend to API using inventoryApi service
+- [x] T016 [US1] Implement InventoryService.GetAllItems method in backend/Services/InventoryService.cs
+- [x] T017 [US1] Implement GET /api/inventory endpoint in backend/Controllers/InventoryController.cs
+- [x] T018 [US1] Create InventoryList React component in frontend/src/components/InventoryList.tsx
+- [x] T019 [US1] Create InventoryPage component in frontend/src/pages/InventoryPage.tsx
+- [x] T020 [US1] Add inventory route to React router in frontend/src/App.tsx
+- [x] T021 [US1] Connect frontend to API using inventoryApi service
 
 **Checkpoint**: User Story 1 fully functional - users can view their inventory list
 
