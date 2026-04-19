@@ -120,7 +120,7 @@ Each user story can be implemented and tested independently once foundational ta
 - [x] T029 [US2] Create AddItemPage component in frontend/src/pages/AddItemPage.tsx
 - [x] T030 [US2] Add add item route and navigation to React app
 - [x] T031 [US2] Update InventoryList to refresh after adding items
-- [ ] T031a [US2] Implement audit logging for item creation (timestamp, before/after values) consistent with T039
+- [x] T031a [US2] Implement audit logging for item creation (timestamp, before/after values) consistent with T039
 
 **Checkpoint**: User Story 2 complete - users can add and view items
 

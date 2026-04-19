@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
 
@@ -24,10 +25,27 @@ public class InventoryService : IInventoryService
 
     public async Task<InventoryItem> AddItemAsync(InventoryItem item)
     {
+        item.Name = SanitizeName(item.Name);
+
+        if (string.IsNullOrWhiteSpace(item.Name))
+        {
+            throw new ArgumentException("Name is required");
+        }
+
+        if (item.Quantity < 0)
+        {
+            throw new ArgumentException("Quantity must be non-negative");
+        }
+
+        await EnsureUniqueNameAsync(item.Name, item.Category);
+
         item.CreatedAt = DateTime.UtcNow;
         item.UpdatedAt = DateTime.UtcNow;
         _context.InventoryItems.Add(item);
         await _context.SaveChangesAsync();
+
+        Console.WriteLine($"Audit: Created item {item.Id} ('{item.Name}', {item.Category}) quantity={item.Quantity} at {item.CreatedAt:O}");
+
         return item;
     }
 
@@ -39,11 +57,25 @@ public class InventoryService : IInventoryService
             return null;
         }
 
+        item.Name = SanitizeName(item.Name);
+
+        if (string.IsNullOrWhiteSpace(item.Name))
+        {
+            throw new ArgumentException("Name is required");
+        }
+
+        if (item.Quantity < 0)
+        {
+            throw new ArgumentException("Quantity must be non-negative");
+        }
+
+        await EnsureUniqueNameAsync(item.Name, item.Category, id);
+
         var oldQuantity = existingItem.Quantity;
         existingItem.Name = item.Name;
         existingItem.Quantity = item.Quantity;
         existingItem.Category = item.Category;
-        existingItem.ExpirationDate = item.ExpirationDate;
+        existingItem.ExpirationDate = item.ExpirationDate?.Date;
         existingItem.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -65,5 +97,20 @@ public class InventoryService : IInventoryService
         _context.InventoryItems.Remove(item);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    private static string SanitizeName(string? name)
+    {
+        return (name ?? string.Empty).Trim();
+    }
+
+    private async Task EnsureUniqueNameAsync(string name, Category category, int? existingId = null)
+    {
+        var duplicate = await _context.InventoryItems
+            .AnyAsync(i => i.Name == name && i.Category == category && (!existingId.HasValue || i.Id != existingId.Value));
+        if (duplicate)
+        {
+            throw new InvalidOperationException($"An item named '{name}' already exists in {category}.");
+        }
     }
 }
