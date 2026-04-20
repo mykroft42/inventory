@@ -109,7 +109,7 @@ A user wants to quickly increase or decrease the quantity of an existing item di
 ## Assumptions
 
 - The single-user model from feature 001 is retained; no concurrent-edit conflict resolution is required beyond last-write-wins.
-- "Removing" an item means permanently deleting it from the inventory (with undo grace period), not soft-deleting or archiving.
+- "Removing" an item is permanently deleted from the user's perspective once the 5-second undo window expires. Internally this is implemented as a soft-delete (setting a deletion timestamp) per Constitution Principle III, which preserves audit history and enables the undo action.
 - The optional fields (category, expiration date) are preserved in the data model and still editable via a secondary "details" flow; this feature only removes them from the critical add path.
 - Category defaults to the last-used category for that item name when auto-selected via autocomplete, or remains unset for new items.
 - The undo window is 5 seconds; after that the deletion is permanent.
