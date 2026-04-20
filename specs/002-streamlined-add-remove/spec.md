@@ -70,16 +70,17 @@ A user wants to quickly increase or decrease the quantity of an existing item di
 
 ### Functional Requirements
 
-- **FR-001**: The add-item interface MUST require only item name and quantity; all other fields (category, expiration date) MUST be optional and collapsible or hidden by default.
-- **FR-002**: The item name input MUST be a combo-box (type-to-filter) that surfaces matching existing item names as the user types, starting from the first character.
+- **FR-001**: The add-item interface MUST require only item name and quantity; all other fields (category, expiration date) MUST be optional and accessible via a collapsed "More options" expander on the same form — hidden by default, expandable on demand.
+- **FR-002**: The item name input MUST be a combo-box (type-to-filter) that surfaces matching existing item names as the user types, starting from the first character. Suggestions MUST include all known items regardless of current quantity (including items at quantity 0).
 - **FR-003**: Autocomplete matching MUST be case-insensitive and filter by substring (not prefix-only).
-- **FR-004**: When the user selects an existing item from autocomplete suggestions and submits, the system MUST add the entered quantity to that item's existing quantity (increment, not replace).
-- **FR-005**: When the user types a name not present in the autocomplete suggestions and submits, the system MUST create a new inventory item with the entered name and quantity.
+- **FR-004**: When the submitted item name matches an existing item name (case-insensitive, exact full-string match) — whether via explicit dropdown selection or by typing — the system MUST add the entered quantity to that item's existing quantity (increment, not replace).
+- **FR-005**: When the submitted item name does not match any existing item name (case-insensitive), the system MUST create a new inventory item with the entered name and quantity.
 - **FR-006**: After a successful add, the form MUST reset and return focus to the name input so the user can immediately add another item.
 - **FR-007**: Each item row in the inventory list MUST expose a single-action remove control (e.g., a delete button) that removes the item without a confirmation dialog.
-- **FR-008**: After a removal, the system MUST display a brief undo notification (minimum 5 seconds) that allows the user to reverse the deletion.
+- **FR-008**: After a removal, the system MUST display a brief undo notification (minimum 5 seconds) that allows the user to reverse the deletion. If the server-side delete fails, the item MUST reappear in the list immediately with an inline error message; the undo notification is dismissed.
 - **FR-009**: Quantity adjustment via the existing +/− controls MUST remain available on each inventory row.
 - **FR-010**: The system MUST validate that quantity is a non-negative integer before submitting; it MUST display an inline error for invalid values without losing the user's other input.
+- **FR-011**: The existing add item page MUST be replaced by the new streamlined form; no additional navigation entry points are introduced.
 
 ### Key Entities
 
@@ -95,6 +96,16 @@ A user wants to quickly increase or decrease the quantity of an existing item di
 - **SC-003**: The autocomplete suggestion list appears within 300ms of the user typing the first character.
 - **SC-004**: 90% of add-item attempts by returning users (who have existing items) result in an autocomplete match being selected rather than a full manual entry, reducing typing effort.
 
+## Clarifications
+
+### Session 2026-04-20
+
+- Q: Should typing an exact name match (without selecting from dropdown) map to the existing item or create a new one? → A: Exact case-insensitive full-string match always maps to the existing item and increments its quantity, regardless of whether the dropdown suggestion was explicitly selected.
+- Q: How should optional fields (category, expiration date) be accessible on the add form? → A: Collapsed "More options" expander on the same form — hidden by default, expandable on demand.
+- Q: Where should the streamlined add form live? → A: Replace the existing add item page with the new streamlined form; no new navigation entry points.
+- Q: Should autocomplete suggestions include only in-stock items or all items ever created? → A: All items, including those at quantity 0. Future feature will add ability to permanently prune/hide items from suggestions.
+- Q: What should happen if the server-side delete fails after the item was optimistically removed from the UI? → A: Item reappears in the list immediately with an inline error message ("Failed to remove — please try again").
+
 ## Assumptions
 
 - The single-user model from feature 001 is retained; no concurrent-edit conflict resolution is required beyond last-write-wins.
@@ -103,3 +114,4 @@ A user wants to quickly increase or decrease the quantity of an existing item di
 - Category defaults to the last-used category for that item name when auto-selected via autocomplete, or remains unset for new items.
 - The undo window is 5 seconds; after that the deletion is permanent.
 - Keyboard and screen-reader accessibility standards (WCAG 2.1 AA) apply to all new controls, consistent with the existing app.
+- Pruning/hiding items from autocomplete suggestions is out of scope for this feature and will be addressed in a future specification.
