@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npm test *)",
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Bash(npm install *)",
+      "Bash(npm --prefix frontend install)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k: d[k] for k in ['main','module','exports'] if k in d}, indent=2\\)\\)\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" after_implement)",
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_implement)"
+    ]
+  }
+}
