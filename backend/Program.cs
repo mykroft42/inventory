@@ -28,10 +28,15 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseCors("AllowAll");
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 
 app.Run();
+
+public partial class Program {}

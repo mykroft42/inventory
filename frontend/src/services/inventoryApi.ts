@@ -1,9 +1,12 @@
+export type Category = 'Groceries' | 'Medications' | 'Consumables';
+
 export interface InventoryItem {
   id: number;
   name: string;
   quantity: number;
-  category: 'Groceries' | 'Medications' | 'Consumables';
-  expirationDate?: string;
+  category?: Category | null;
+  expirationDate?: string | null;
+  deletedAt?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -84,5 +87,15 @@ export const inventoryApi = {
     if (!response.ok) {
       await parseError(response, 'Failed to delete inventory item.');
     }
+  },
+
+  async restoreItem(id: number): Promise<InventoryItem> {
+    const response = await fetch(`${API_BASE_URL}/api/inventory/${id}/restore`, {
+      method: 'PATCH',
+    });
+    if (!response.ok) {
+      await parseError(response, 'Failed to restore inventory item.');
+    }
+    return response.json();
   },
 };

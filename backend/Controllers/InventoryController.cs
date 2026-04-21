@@ -135,4 +135,22 @@ public class InventoryController : ControllerBase
             return StatusCode(500, new { error = "Failed to delete inventory item", details = ex.Message });
         }
     }
+
+    [HttpPatch("{id}/restore")]
+    public async Task<IActionResult> Restore(int id)
+    {
+        try
+        {
+            var item = await _inventoryService.RestoreItemAsync(id);
+            if (item == null)
+            {
+                return NotFound(new { error = $"Inventory item with ID {id} not found" });
+            }
+            return Ok(item);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "Failed to restore inventory item", details = ex.Message });
+        }
+    }
 }

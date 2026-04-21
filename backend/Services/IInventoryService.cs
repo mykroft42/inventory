@@ -9,4 +9,5 @@ public interface IInventoryService
     Task<InventoryItem> AddItemAsync(InventoryItem item);
     Task<InventoryItem?> UpdateItemAsync(int id, InventoryItem item);
     Task<bool> DeleteItemAsync(int id);
+    Task<InventoryItem?> RestoreItemAsync(int id);
 }
