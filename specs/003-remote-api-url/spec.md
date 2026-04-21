@@ -29,6 +29,13 @@ A household member opens the inventory app in a browser on their phone or anothe
 - What happens if someone accesses the app without configuring the address? The app should fall back gracefully and show a helpful error rather than silently failing.
 - Does changing the address require restarting the server or rebuilding the frontend? The configuration mechanism should not require a full rebuild for a simple address change.
 
+## Clarifications
+
+### Session 2026-04-21
+
+- Q: Should this feature include a requirement that the backend server is configured to accept connections from the local network? → A: Yes — backend binding is in scope; remote access must work end-to-end.
+- Q: Should this feature include a requirement that the backend accepts cross-origin requests from local network devices? → A: Yes — CORS configuration is in scope.
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -38,12 +45,14 @@ A household member opens the inventory app in a browser on their phone or anothe
 - **FR-003**: When no address is explicitly configured, the system MUST fall back to a sensible default so local development continues to work without any setup.
 - **FR-004**: The configuration mechanism MUST work for both the local machine and remote devices on the same network using the same frontend build.
 - **FR-005**: Changing the configured address MUST NOT require recompiling or rebuilding the frontend application.
+- **FR-006**: The backend server MUST be configured to accept incoming connections from any device on the local network, not only from the machine it runs on.
+- **FR-007**: The backend server MUST permit cross-origin requests from browsers on the local network so that API calls from remote devices are not blocked.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: A user on a second device on the same network can load the inventory list and perform all inventory actions with zero configuration changes on their device.
+- **SC-001**: A user on a second device on the same network can load the inventory list and perform all inventory actions (add, update, delete, restore) with zero configuration changes on their device.
 - **SC-002**: A developer running the app locally sees no change in behaviour — all existing functionality continues to work after this change is applied.
 - **SC-003**: Updating the server address takes no more than one configuration file edit followed by a server restart (no rebuild required).
 
