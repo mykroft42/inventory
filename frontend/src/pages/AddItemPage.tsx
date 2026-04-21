@@ -1,22 +1,26 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AddItemForm from '../components/AddItemForm';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import QuickAddForm from '../components/QuickAddForm';
+import { inventoryApi, InventoryItem } from '../services/inventoryApi';
 
 const AddItemPage: React.FC = () => {
-  const navigate = useNavigate();
+  const [items, setItems] = useState<InventoryItem[]>([]);
 
-  const handleItemAdded = () => {
-    // Navigate back to inventory page
-    navigate('/inventory');
+  useEffect(() => {
+    inventoryApi.getAll().then(setItems).catch(() => {});
+  }, []);
+
+  const handleSuccess = () => {
+    inventoryApi.getAll().then(setItems).catch(() => {});
   };
 
   return (
     <main className="container">
       <section className="page-header">
-        <h1>Add New Item</h1>
+        <h1>Add Item</h1>
         <Link to="/inventory" className="btn btn-secondary">Back to Inventory</Link>
       </section>
-      <AddItemForm onItemAdded={handleItemAdded} />
+      <QuickAddForm items={items} onSuccess={handleSuccess} />
     </main>
   );
 };

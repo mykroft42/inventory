@@ -15,12 +15,15 @@ public class InventoryService : IInventoryService
 
     public async Task<IEnumerable<InventoryItem>> GetAllItemsAsync()
     {
-        return await _context.InventoryItems.ToListAsync();
+        return await _context.InventoryItems
+            .Where(i => i.DeletedAt == null)
+            .ToListAsync();
     }
 
     public async Task<InventoryItem?> GetItemByIdAsync(int id)
     {
-        return await _context.InventoryItems.FindAsync(id);
+        return await _context.InventoryItems
+            .FirstOrDefaultAsync(i => i.Id == id && i.DeletedAt == null);
     }
 
     public async Task<InventoryItem> AddItemAsync(InventoryItem item)
@@ -28,48 +31,39 @@ public class InventoryService : IInventoryService
         item.Name = SanitizeName(item.Name);
 
         if (string.IsNullOrWhiteSpace(item.Name))
-        {
             throw new ArgumentException("Name is required");
-        }
 
         if (item.Quantity < 0)
-        {
             throw new ArgumentException("Quantity must be non-negative");
-        }
 
-        await EnsureUniqueNameAsync(item.Name, item.Category);
+        await EnsureUniqueNameAsync(item.Name);
 
         item.CreatedAt = DateTime.UtcNow;
         item.UpdatedAt = DateTime.UtcNow;
         _context.InventoryItems.Add(item);
         await _context.SaveChangesAsync();
 
-        Console.WriteLine($"Audit: Created item {item.Id} ('{item.Name}', {item.Category}) quantity={item.Quantity} at {item.CreatedAt:O}");
+        Console.WriteLine($"Audit: Created item {item.Id} ('{item.Name}') quantity={item.Quantity} at {item.CreatedAt:O}");
 
         return item;
     }
 
     public async Task<InventoryItem?> UpdateItemAsync(int id, InventoryItem item)
     {
-        var existingItem = await _context.InventoryItems.FindAsync(id);
+        var existingItem = await _context.InventoryItems
+            .FirstOrDefaultAsync(i => i.Id == id && i.DeletedAt == null);
         if (existingItem == null)
-        {
             return null;
-        }
 
         item.Name = SanitizeName(item.Name);
 
         if (string.IsNullOrWhiteSpace(item.Name))
-        {
             throw new ArgumentException("Name is required");
-        }
 
         if (item.Quantity < 0)
-        {
             throw new ArgumentException("Quantity must be non-negative");
-        }
 
-        await EnsureUniqueNameAsync(item.Name, item.Category, id);
+        await EnsureUniqueNameAsync(item.Name, id);
 
         var oldQuantity = existingItem.Quantity;
         existingItem.Name = item.Name;
@@ -80,7 +74,6 @@ public class InventoryService : IInventoryService
 
         await _context.SaveChangesAsync();
 
-        // Audit logging
         Console.WriteLine($"Audit: Updated item {id} ({existingItem.Name}) quantity from {oldQuantity} to {existingItem.Quantity}");
 
         return existingItem;
@@ -88,15 +81,33 @@ public class InventoryService : IInventoryService
 
     public async Task<bool> DeleteItemAsync(int id)
     {
+        var item = await _context.InventoryItems
+            .FirstOrDefaultAsync(i => i.Id == id && i.DeletedAt == null);
+        if (item == null)
+            return false;
+
+        item.DeletedAt = DateTime.UtcNow;
+        item.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        Console.WriteLine($"Audit: Soft-deleted item {id} ('{item.Name}') at {item.DeletedAt:O}");
+
+        return true;
+    }
+
+    public async Task<InventoryItem?> RestoreItemAsync(int id)
+    {
         var item = await _context.InventoryItems.FindAsync(id);
         if (item == null)
-        {
-            return false;
-        }
+            return null;
 
-        _context.InventoryItems.Remove(item);
+        item.DeletedAt = null;
+        item.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
-        return true;
+
+        Console.WriteLine($"Audit: Restored item {id} ('{item.Name}') at {item.UpdatedAt:O}");
+
+        return item;
     }
 
     private static string SanitizeName(string? name)
@@ -104,13 +115,14 @@ public class InventoryService : IInventoryService
         return (name ?? string.Empty).Trim();
     }
 
-    private async Task EnsureUniqueNameAsync(string name, Category category, int? existingId = null)
+    private async Task EnsureUniqueNameAsync(string name, int? excludeId = null)
     {
-        var duplicate = await _context.InventoryItems
-            .AnyAsync(i => i.Name == name && i.Category == category && (!existingId.HasValue || i.Id != existingId.Value));
+        var duplicate = await _context.InventoryItems.AnyAsync(i =>
+            i.DeletedAt == null &&
+            i.Name.ToLower() == name.ToLower() &&
+            (!excludeId.HasValue || i.Id != excludeId.Value));
+
         if (duplicate)
-        {
-            throw new InvalidOperationException($"An item named '{name}' already exists in {category}.");
-        }
+            throw new InvalidOperationException($"An item named '{name}' already exists.");
     }
 }

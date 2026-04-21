@@ -23,15 +23,16 @@ public class InventoryItem
     [Range(0, 10000, ErrorMessage = "Quantity must be between 0 and 10,000")]
     public int Quantity { get; set; }
     
-    [Required(ErrorMessage = "Category is required")]
-    public Category Category { get; set; }
-    
+    public Category? Category { get; set; }
+
     [CustomValidation(typeof(InventoryItem), nameof(ValidateExpirationDate))]
     public DateTime? ExpirationDate { get; set; }
-    
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    
+
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? DeletedAt { get; set; }
 
     public static ValidationResult? ValidateExpirationDate(DateTime? expirationDate, ValidationContext context)
     {

@@ -1,59 +1,48 @@
-using Xunit;
-using Moq;
 using backend.Services;
 using backend.Models;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.Tests;
 
 public class InventoryServiceTests
 {
-    private readonly Mock<InventoryContext> _mockContext;
-    private readonly InventoryService _service;
-
-    public InventoryServiceTests()
+    private static InventoryContext CreateInMemoryContext()
     {
-        _mockContext = new Mock<InventoryContext>();
-        _service = new InventoryService(_mockContext.Object);
+        var options = new DbContextOptionsBuilder<InventoryContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+        return new InventoryContext(options);
     }
 
     [Fact]
-    public async Task GetAllItemsAsync_ReturnsAllItems()
+    public async Task GetAllItemsAsync_ReturnsOnlyActiveItems()
     {
-        // Arrange
-        var items = new List<InventoryItem>
-        {
-            new InventoryItem { Id = 1, Name = "Milk", Quantity = 2, Category = Category.Groceries },
-            new InventoryItem { Id = 2, Name = "Bread", Quantity = 1, Category = Category.Groceries }
-        };
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.AddRange(
+            new InventoryItem { Name = "Active", Quantity = 1 },
+            new InventoryItem { Name = "Deleted", Quantity = 1, DeletedAt = DateTime.UtcNow }
+        );
+        await context.SaveChangesAsync();
+        var service = new InventoryService(context);
 
-        var mockDbSet = CreateMockDbSet(items);
-        _mockContext.Setup(c => c.InventoryItems).Returns(mockDbSet.Object);
+        var result = await service.GetAllItemsAsync();
 
-        // Act
-        var result = await _service.GetAllItemsAsync();
-
-        // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, i => i.Name == "Milk");
-        Assert.Contains(result, i => i.Name == "Bread");
+        Assert.Single(result);
+        Assert.Equal("Active", result.First().Name);
     }
 
     [Fact]
     public async Task GetItemByIdAsync_ReturnsItem_WhenExists()
     {
-        // Arrange
-        var item = new InventoryItem { Id = 1, Name = "Milk", Quantity = 2, Category = Category.Groceries };
-        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync(item);
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.Add(new InventoryItem { Name = "Milk", Quantity = 2 });
+        await context.SaveChangesAsync();
+        var item = context.InventoryItems.First();
+        var service = new InventoryService(context);
 
-        // Act
-        var result = await _service.GetItemByIdAsync(1);
+        var result = await service.GetItemByIdAsync(item.Id);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal("Milk", result.Name);
     }
@@ -61,59 +50,124 @@ public class InventoryServiceTests
     [Fact]
     public async Task GetItemByIdAsync_ReturnsNull_WhenNotExists()
     {
-        // Arrange
-        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync((InventoryItem?)null);
+        using var context = CreateInMemoryContext();
+        var service = new InventoryService(context);
 
-        // Act
-        var result = await _service.GetItemByIdAsync(1);
+        var result = await service.GetItemByIdAsync(99999);
 
-        // Assert
         Assert.Null(result);
     }
 
     [Fact]
     public async Task UpdateItemAsync_UpdatesExistingItem()
     {
-        // Arrange
-        var existingItem = new InventoryItem { Id = 1, Name = "Milk", Quantity = 2, Category = Category.Groceries };
-        var updatedData = new InventoryItem { Id = 1, Name = "Milk", Quantity = 5, Category = Category.Groceries };
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.Add(new InventoryItem { Name = "Milk", Quantity = 2 });
+        await context.SaveChangesAsync();
+        var item = context.InventoryItems.First();
+        var service = new InventoryService(context);
 
-        var mockDbSet = new Mock<DbSet<InventoryItem>>();
-        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync(existingItem);
-        _mockContext.Setup(c => c.SaveChangesAsync(default)).ReturnsAsync(1);
+        var updated = await service.UpdateItemAsync(item.Id, new InventoryItem { Name = "Milk", Quantity = 5 });
 
-        // Act
-        var result = await _service.UpdateItemAsync(1, updatedData);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(5, result.Quantity);
-        Assert.True(result.UpdatedAt > existingItem.UpdatedAt);
-        _mockContext.Verify(c => c.SaveChangesAsync(default), Times.Once);
+        Assert.NotNull(updated);
+        Assert.Equal(5, updated.Quantity);
     }
 
     [Fact]
     public async Task UpdateItemAsync_ReturnsNull_WhenItemNotFound()
     {
-        // Arrange
-        var updatedData = new InventoryItem { Id = 1, Name = "Milk", Quantity = 5, Category = Category.Groceries };
-        _mockContext.Setup(c => c.InventoryItems.FindAsync(1)).ReturnsAsync((InventoryItem?)null);
+        using var context = CreateInMemoryContext();
+        var service = new InventoryService(context);
 
-        // Act
-        var result = await _service.UpdateItemAsync(1, updatedData);
+        var result = await service.UpdateItemAsync(99999, new InventoryItem { Name = "Milk", Quantity = 5 });
 
-        // Assert
         Assert.Null(result);
     }
 
-    private Mock<DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class
+    // T002 - Soft delete sets DeletedAt and item stays in database
+    [Fact]
+    public async Task DeleteItemAsync_SetsDeletedAt_ItemRemainsInDatabase()
     {
-        var queryable = data.AsQueryable();
-        var mockDbSet = new Mock<DbSet<T>>();
-        mockDbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-        mockDbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-        mockDbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-        mockDbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
-        return mockDbSet;
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.Add(new InventoryItem { Name = "Milk", Quantity = 2 });
+        await context.SaveChangesAsync();
+        var item = context.InventoryItems.First();
+        var service = new InventoryService(context);
+
+        var result = await service.DeleteItemAsync(item.Id);
+
+        Assert.True(result);
+        var dbItem = await context.InventoryItems.FindAsync(item.Id);
+        Assert.NotNull(dbItem);
+        Assert.NotNull(dbItem.DeletedAt);
+    }
+
+    [Fact]
+    public async Task DeleteItemAsync_DeletedItemExcludedFromGetAll()
+    {
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.Add(new InventoryItem { Name = "Milk", Quantity = 2 });
+        await context.SaveChangesAsync();
+        var item = context.InventoryItems.First();
+        var service = new InventoryService(context);
+
+        await service.DeleteItemAsync(item.Id);
+        var all = await service.GetAllItemsAsync();
+
+        Assert.Empty(all);
+    }
+
+    // T003 - Restore clears DeletedAt
+    [Fact]
+    public async Task RestoreItemAsync_ClearsDeletedAt()
+    {
+        using var context = CreateInMemoryContext();
+        context.InventoryItems.Add(new InventoryItem { Name = "Milk", Quantity = 2, DeletedAt = DateTime.UtcNow });
+        await context.SaveChangesAsync();
+        var item = context.InventoryItems.First();
+        var service = new InventoryService(context);
+
+        var result = await service.RestoreItemAsync(item.Id);
+
+        Assert.NotNull(result);
+        Assert.Null(result.DeletedAt);
+    }
+
+    [Fact]
+    public async Task RestoreItemAsync_ReturnsNull_WhenItemNotFound()
+    {
+        using var context = CreateInMemoryContext();
+        var service = new InventoryService(context);
+
+        var result = await service.RestoreItemAsync(99999);
+
+        Assert.Null(result);
+    }
+
+    // T004 - Case-insensitive name uniqueness
+    [Fact]
+    public async Task AddItemAsync_ThrowsException_WhenNameMatchesCaseInsensitively()
+    {
+        using var context = CreateInMemoryContext();
+        var service = new InventoryService(context);
+        await service.AddItemAsync(new InventoryItem { Name = "Milk", Quantity = 2 });
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => service.AddItemAsync(new InventoryItem { Name = "milk", Quantity = 1 }));
+    }
+
+    [Fact]
+    public async Task AddItemAsync_AllowsSameName_WhenExistingItemIsDeleted()
+    {
+        using var context = CreateInMemoryContext();
+        var service = new InventoryService(context);
+        await service.AddItemAsync(new InventoryItem { Name = "Milk", Quantity = 2 });
+        var item = context.InventoryItems.First();
+        await service.DeleteItemAsync(item.Id);
+
+        var result = await service.AddItemAsync(new InventoryItem { Name = "Milk", Quantity = 3 });
+
+        Assert.NotNull(result);
+        Assert.Equal("Milk", result.Name);
     }
 }
