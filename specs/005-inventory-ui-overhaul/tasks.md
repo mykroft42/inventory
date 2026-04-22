@@ -62,16 +62,16 @@
 
 ### Tests for User Story 1 ⚠️ Write first — must FAIL before T025
 
-- [ ] T022 [P] [US1] Write failing `InventoryTable` unit tests in `frontend/src/components/InventoryTable.test.tsx`: table element present; column headers (Name, Category, Expires, Qty, Actions) render; one row per item; empty-state message shown when items array is empty; row renders item name, category, expiration date
-- [ ] T023 [P] [US1] Write failing `QuantityCell` unit tests in `frontend/src/components/QuantityCell.test.tsx`: increment button calls handler; decrement button calls handler; decrement button is disabled when quantity is 0; clicking quantity value enters edit mode; Enter commits edit; Escape cancels edit; invalid input shows error
+- [X] T022 [P] [US1] Write failing `InventoryTable` unit tests in `frontend/src/components/InventoryTable.test.tsx`: table element present; column headers (Name, Category, Expires, Qty, Actions) render; one row per item; empty-state message shown when items array is empty; row renders item name, category, expiration date
+- [X] T023 [P] [US1] Write failing `QuantityCell` unit tests in `frontend/src/components/QuantityCell.test.tsx`: increment button calls handler; decrement button calls handler; decrement button is disabled when quantity is 0; clicking quantity value enters edit mode; Enter commits edit; Escape cancels edit; invalid input shows error
 
 ### Implementation for User Story 1
 
-- [ ] T024 [P] [US1] Create `frontend/src/components/QuantityCell.tsx`: accepts props from data-model.md `QuantityCell` spec; renders shadcn/ui `Button` (variant `outline`, size `icon`) for − and +; renders clickable `<button>` for qty display; renders shadcn/ui `Input` (autoFocus) when in edit mode; disables − at zero
-- [ ] T025 [US1] Create `frontend/src/components/InventoryTable.tsx`: replaces `InventoryList`; renders shadcn/ui `Table` with `TableHeader` + `TableBody`; columns: Name, Category, Expires, Qty (uses `QuantityCell`), Actions; fetches data and manages state (items, loading, updatingItems, deleted, editingQty) identical to current `InventoryList` logic; on remove: calls `inventoryApi.delete` then `sonner.toast()` with Undo action; on undo: calls `inventoryApi.restoreItem`; on qty change: calls `handleQuantityChange`; responsive: non-critical columns hidden below `sm` breakpoint; zero-qty rows and expired rows handled in Phase 5
-- [ ] T026 [US1] Update `frontend/src/pages/InventoryPage.tsx`: import `InventoryTable` instead of `InventoryList`
-- [ ] T027 [US1] Delete `frontend/src/components/InventoryList.tsx`, `frontend/src/components/InventoryList.test.tsx`, `frontend/src/components/UndoToast.tsx`, `frontend/src/components/UndoToast.test.tsx`
-- [ ] T028 [US1] Update `frontend/cypress/e2e/inventory.cy.ts`: replace `.inventory-item` class selectors with `tr` row selectors or `data-testid` attributes; update quantity update test to target table row instead of card; keep all other scenario coverage intact
+- [X] T024 [P] [US1] Create `frontend/src/components/QuantityCell.tsx`: accepts props from data-model.md `QuantityCell` spec; renders shadcn/ui `Button` (variant `outline`, size `icon`) for − and +; renders clickable `<button>` for qty display; renders shadcn/ui `Input` (autoFocus) when in edit mode; disables − at zero
+- [X] T025 [US1] Create `frontend/src/components/InventoryTable.tsx`: replaces `InventoryList`; renders shadcn/ui `Table` with `TableHeader` + `TableBody`; columns: Name, Category, Expires, Qty (uses `QuantityCell`), Actions; fetches data and manages state (items, loading, updatingItems, deleted, editingQty) identical to current `InventoryList` logic; on remove: calls `inventoryApi.delete` then `sonner.toast()` with Undo action; on undo: calls `inventoryApi.restoreItem`; on qty change: calls `handleQuantityChange`; responsive: non-critical columns hidden below `sm` breakpoint; zero-qty rows and expired rows handled in Phase 5
+- [X] T026 [US1] Update `frontend/src/pages/InventoryPage.tsx`: import `InventoryTable` instead of `InventoryList`
+- [X] T027 [US1] Delete `frontend/src/components/InventoryList.tsx`, `frontend/src/components/InventoryList.test.tsx`, `frontend/src/components/UndoToast.tsx`, `frontend/src/components/UndoToast.test.tsx`
+- [X] T028 [US1] Update `frontend/cypress/e2e/inventory.cy.ts`: replace `.inventory-item` class selectors with `tr` row selectors or `data-testid` attributes; update quantity update test to target table row instead of card; keep all other scenario coverage intact
 
 **Checkpoint**: User Story 1 fully functional. 20 items render in compact table; quantity +/− works; delete + undo toast works. Run `npm test` and confirm InventoryTable + QuantityCell tests pass.
 
@@ -85,16 +85,16 @@
 
 ### Tests for User Story 2 ⚠️ Update to fail before T032
 
-- [ ] T029 [P] [US2] Update `frontend/src/components/AddItemForm.test.tsx`: change selectors to match shadcn/ui Input, Select, Label, Button rendered output (e.g., `getByRole('textbox', { name: /item name/i })` instead of `getByTestId`); run tests and confirm they fail against current implementation
-- [ ] T030 [P] [US2] Update `frontend/src/components/QuickAddForm.test.tsx`: update selectors for shadcn/ui Input and Button; confirm tests fail against current implementation
+- [X] T029 [P] [US2] Update `frontend/src/components/AddItemForm.test.tsx`: change selectors to match shadcn/ui Input, Select, Label, Button rendered output (e.g., `getByRole('textbox', { name: /item name/i })` instead of `getByTestId`); run tests and confirm they fail against current implementation
+- [X] T030 [P] [US2] Update `frontend/src/components/QuickAddForm.test.tsx`: update selectors for shadcn/ui Input and Button; confirm tests fail against current implementation
 
 ### Implementation for User Story 2
 
-- [ ] T031 [P] [US2] Restyle `frontend/src/components/AddItemForm.tsx`: replace `className="form-group"` divs with shadcn/ui `Label` + `Input` / `Select` / `SelectTrigger` / `SelectContent` / `SelectItem`; replace `className="btn"` submit button with shadcn/ui `Button`; replace `.error-message` spans with Tailwind `text-destructive text-sm` spans
-- [ ] T032 [P] [US2] Restyle `frontend/src/components/QuickAddForm.tsx`: replace custom-class inputs and button with shadcn/ui `Input` and `Button`; apply Tailwind gap/flex utilities for layout
-- [ ] T033 [P] [US2] Restyle `frontend/src/components/ComboBox.tsx`: replace `.combobox-container`, `.combobox-dropdown`, `.combobox-option` classes with Tailwind utility classes; keep existing ARIA and keyboard logic unchanged; update `frontend/src/components/ComboBox.test.tsx` selectors if needed
-- [ ] T034 [US2] Restyle navigation header in `frontend/src/App.tsx`: replace `.topbar` / `.topbar-nav` / `.brand` / `.topbar-link` class-based styles with Tailwind utilities; use shadcn/ui `Button` (variant `ghost` or `link`) for nav links
-- [ ] T035 [US2] Apply Tailwind layout utilities to `frontend/src/pages/InventoryPage.tsx` and `frontend/src/pages/AddItemPage.tsx`: replace `.container`, `.page-header`, `.action-bar` class references with Tailwind equivalents
+- [X] T031 [P] [US2] Restyle `frontend/src/components/AddItemForm.tsx`: replace `className="form-group"` divs with shadcn/ui `Label` + `Input` / `Select` / `SelectTrigger` / `SelectContent` / `SelectItem`; replace `className="btn"` submit button with shadcn/ui `Button`; replace `.error-message` spans with Tailwind `text-destructive text-sm` spans
+- [X] T032 [P] [US2] Restyle `frontend/src/components/QuickAddForm.tsx`: replace custom-class inputs and button with shadcn/ui `Input` and `Button`; apply Tailwind gap/flex utilities for layout
+- [X] T033 [P] [US2] Restyle `frontend/src/components/ComboBox.tsx`: replace `.combobox-container`, `.combobox-dropdown`, `.combobox-option` classes with Tailwind utility classes; keep existing ARIA and keyboard logic unchanged; update `frontend/src/components/ComboBox.test.tsx` selectors if needed
+- [X] T034 [US2] Restyle navigation header in `frontend/src/App.tsx`: replace `.topbar` / `.topbar-nav` / `.brand` / `.topbar-link` class-based styles with Tailwind utilities; use shadcn/ui `Button` (variant `ghost` or `link`) for nav links
+- [X] T035 [US2] Apply Tailwind layout utilities to `frontend/src/pages/InventoryPage.tsx` and `frontend/src/pages/AddItemPage.tsx`: replace `.container`, `.page-header`, `.action-bar` class references with Tailwind equivalents
 
 **Checkpoint**: User Stories 1 AND 2 both function correctly. No custom `.btn`, `.form-group`, `.inventory-item`, `.topbar`, or `.quantity-controls` CSS class references remain in component files. Run `npm test` and confirm all updated tests pass.
 

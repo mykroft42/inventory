@@ -1,4 +1,5 @@
 import React, { useState, useId, forwardRef } from 'react';
+import { cn } from '@/lib/utils';
 
 interface ComboBoxProps {
   value: string;
@@ -55,7 +56,7 @@ const ComboBox = forwardRef<HTMLInputElement, ComboBoxProps>(({
   };
 
   return (
-    <div className="combobox-container">
+    <div className="relative w-full">
       <input
         ref={ref}
         id={id}
@@ -72,12 +73,13 @@ const ComboBox = forwardRef<HTMLInputElement, ComboBoxProps>(({
         onFocus={() => setDismissed(false)}
         onBlur={() => setTimeout(() => { setDismissed(true); setActiveIndex(-1); }, 150)}
         autoComplete="off"
+        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
       />
       {isOpen && (
         <ul
           id={listboxId}
           role="listbox"
-          className="combobox-dropdown"
+          className="absolute z-10 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md"
         >
           {filtered.map((item, index) => (
             <li
@@ -86,7 +88,10 @@ const ComboBox = forwardRef<HTMLInputElement, ComboBoxProps>(({
               role="option"
               aria-selected={index === activeIndex}
               onClick={() => select(item)}
-              className={`combobox-option${index === activeIndex ? ' combobox-option--active' : ''}`}
+              className={cn(
+                'px-3 py-2 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground',
+                index === activeIndex && 'bg-accent text-accent-foreground'
+              )}
             >
               {item}
             </li>

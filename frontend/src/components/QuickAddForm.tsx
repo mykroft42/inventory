@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { inventoryApi, InventoryItem, Category } from '../services/inventoryApi';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import ComboBox from './ComboBox';
 
 interface QuickAddFormProps {
@@ -72,68 +75,75 @@ const QuickAddForm: React.FC<QuickAddFormProps> = ({ items, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} aria-label="Quick add item" role="form" noValidate className="quick-add-form">
-      <div>
-        <label htmlFor="quick-add-name">Name</label>
+    <form onSubmit={handleSubmit} aria-label="Quick add item" role="form" noValidate className="space-y-3">
+      <div className="space-y-1">
+        <Label htmlFor="quick-add-name">Name</Label>
         <ComboBox
           ref={nameInputRef}
           id="quick-add-name"
           value={name}
           suggestions={suggestions}
           onChange={setName}
-          onSelect={val => { setName(val); }}
+          onSelect={val => setName(val)}
           placeholder="Item name"
         />
-        {nameError && <span role="alert">{nameError}</span>}
+        {nameError && <span role="alert" className="text-destructive text-sm">{nameError}</span>}
       </div>
 
-      <div>
-        <label htmlFor="quick-add-qty">Quantity</label>
-        <input
+      <div className="space-y-1">
+        <Label htmlFor="quick-add-qty">Quantity</Label>
+        <Input
           id="quick-add-qty"
           type="number"
           min="0"
           value={quantity}
           onChange={e => setQuantity(e.target.value)}
           placeholder="1"
+          className="w-24"
         />
-        {quantityError && <span role="alert">{quantityError}</span>}
+        {quantityError && <span role="alert" className="text-destructive text-sm">{quantityError}</span>}
       </div>
 
-      <button type="submit" disabled={submitting}>
-        {submitting ? 'Adding…' : 'Add'}
-      </button>
-
-      <div>
-        <button type="button" onClick={() => setShowMore(m => !m)} aria-expanded={showMore}>
+      <div className="flex items-center gap-2">
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Adding…' : 'Add'}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowMore(m => !m)}
+          aria-expanded={showMore}
+        >
           More options
-        </button>
-        {showMore && (
-          <>
-            <div>
-              <label htmlFor="quick-add-category">Category</label>
-              <select
-                id="quick-add-category"
-                role="listbox"
-                value={category}
-                onChange={e => setCategory(e.target.value as Category | '')}
-              >
-                <option value="">None</option>
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="quick-add-expiry">Expiration date</label>
-              <input
-                id="quick-add-expiry"
-                type="date"
-                value={expirationDate}
-                onChange={e => setExpirationDate(e.target.value)}
-              />
-            </div>
-          </>
-        )}
+        </Button>
       </div>
+
+      {showMore && (
+        <div className="space-y-3 pt-1 border-t">
+          <div className="space-y-1">
+            <Label htmlFor="quick-add-category">Category</Label>
+            <select
+              id="quick-add-category"
+              value={category}
+              onChange={e => setCategory(e.target.value as Category | '')}
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+            >
+              <option value="">None</option>
+              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="quick-add-expiry">Expiration date</Label>
+            <Input
+              id="quick-add-expiry"
+              type="date"
+              value={expirationDate}
+              onChange={e => setExpirationDate(e.target.value)}
+            />
+          </div>
+        </div>
+      )}
     </form>
   );
 };

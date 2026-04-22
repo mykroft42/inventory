@@ -35,7 +35,27 @@
       "Bash(pwsh .specify/scripts/powershell/setup-plan.ps1 -Json)",
       "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_plan)",
       "Bash(pwsh .specify/scripts/powershell/check-prerequisites.ps1 -Json)",
-      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_tasks)"
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_tasks)",
+      "Bash(npx vite *)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File .specify/extensions/git/scripts/powershell/auto-commit.ps1 after_implement)",
+      "Bash(git -C /c/Users/mykro/projects/inventory status --short)",
+      "Bash(git -C /c/Users/mykro/projects/inventory add frontend/package.json frontend/package-lock.json frontend/tsconfig.json frontend/vite.config.ts frontend/postcss.config.js frontend/index.html frontend/src/react-app-env.d.ts frontend/src/services/inventoryApi.ts specs/005-inventory-ui-overhaul/tasks.md)",
+      "Bash(git -C /c/Users/mykro/projects/inventory commit -m \"[Spec Kit] Implementation progress\")",
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); deps={**p.get\\('dependencies',{}\\),**p.get\\('devDependencies',{}\\)}; print\\('tailwindcss:', deps.get\\('tailwindcss','NOT_FOUND'\\)\\); print\\('sonner:', deps.get\\('sonner','NOT_FOUND'\\)\\); print\\('clsx:', deps.get\\('clsx','NOT_FOUND'\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); deps={**p.get\\('dependencies',{}\\),**p.get\\('devDependencies',{}\\)}; [print\\(k,':', v\\) for k,v in sorted\\(deps.items\\(\\)\\)]\")",
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); deps={**p.get\\('dependencies',{}\\),**p.get\\('devDependencies',{}\\)}; print\\('lucide-react:', deps.get\\('lucide-react','NOT_FOUND'\\)\\)\")",
+      "Read(//c/c/Users/mykro/projects/inventory/**)",
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); deps={**p.get\\('dependencies',{}\\),**p.get\\('devDependencies',{}\\)}; keys=['tailwindcss-animate','clsx','tailwind-merge','class-variance-authority','@radix-ui/react-slot','@radix-ui/react-label','@radix-ui/react-select','lucide-react','sonner']; [print\\(k,':', deps.get\\(k,'NOT_FOUND'\\)\\) for k in keys]\")",
+      "Bash(/c/Users/mykro/projects/inventory/frontend/node_modules/.bin/tsc -p /c/Users/mykro/projects/inventory/frontend/tsconfig.json --noEmit)",
+      "Bash(python3 -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('jest', {}\\), indent=2\\)\\)\")",
+      "Bash(npx vitest *)",
+      "Bash(cmd /c \"cd C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npx vitest run src/components/AddItemForm.test.tsx src/components/QuickAddForm.test.tsx 2>&1\")",
+      "Bash(powershell.exe -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; npx vitest run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-Object -Last 20\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node node_modules/.bin/vitest run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-Object -Last 30\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-Object -Last 30\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-String -Pattern '\\(FAIL|PASS|Tests|Test Files\\)' | Select-Object -Last 15\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 2>&1 | Select-Object -Last 25\")",
+      "PowerShell(.specify/extensions/git/scripts/powershell/auto-commit.ps1 after_implement)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul"
