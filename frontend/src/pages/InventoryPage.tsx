@@ -9,7 +9,6 @@ const InventoryPage: React.FC = () => {
         <h1>Household Inventory</h1>
         <div className="action-bar">
           <Link to="/add-item" className="btn">Add New Item</Link>
-          <Link to="/" className="btn btn-secondary">Home</Link>
         </div>
       </section>
       <InventoryList />
