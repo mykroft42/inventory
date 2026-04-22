@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet ef *)",
+      "Bash(dotnet test *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(powershell.exe -File .specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_implement\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/create-new-feature.ps1\" -Json -ShortName \"remote-api-url\" \"Change the configuration of the frontend so that rather than looking at localhost specifically it looks at the ip address so that when people access the system from remote it still works\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_specify\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -PathsOnly)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_clarify\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_plan\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_analyze\")",
+      "Bash(.specify/extensions/git/scripts/powershell/auto-commit.ps1 after_implement)",
+      "Bash(.specify/extensions/git/scripts/powershell/create-new-feature.ps1 -Json -ShortName \"remove-landing-page\" \"remove the landing page and change so that only the add page and the list page exist\")",
+      "Bash(.specify/extensions/git/scripts/powershell/auto-commit.ps1 after_specify)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly)",
+      "Bash(.specify/scripts/powershell/setup-plan.ps1 -Json)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File .specify/extensions/git/scripts/powershell/auto-commit.ps1 after_analyze)",
+      "Bash(npx react-scripts *)",
+      "Bash(CI=true npm --prefix frontend test -- --watchAll=false --testPathPattern=\"App.test\")",
+      "Bash(CI=true npm --prefix frontend test -- --watchAll=false --coverage \"--coverageThreshold={\\\\\"global\\\\\":{\\\\\"lines\\\\\":80,\\\\\"functions\\\\\":80,\\\\\"branches\\\\\":80,\\\\\"statements\\\\\":80}}\")",
+      "Bash(git -C c:/Users/mykro/projects/inventory rev-parse --is-inside-work-tree)",
+      "Bash(bash .specify/extensions/git/scripts/bash/create-new-feature.sh --json --short-name \"inventory-ui-overhaul\" \"the inventory list feels very cluttered. each line item takes a lot of space and there could be 10s of items maybe as many as a hundred. i'd like to make this more organized and make the ui more consistent. i'd like to see a ui framework implemented and the inventory table organized in a way that continues to make increasing and decreasing the quantity of each item easy while displaying the items themselves in a more tabular format\")",
+      "Bash(pwsh .specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly)",
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_clarify)",
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_specify)",
+      "Bash(pwsh .specify/scripts/powershell/setup-plan.ps1 -Json)",
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_plan)",
+      "Bash(pwsh .specify/scripts/powershell/check-prerequisites.ps1 -Json)",
+      "Bash(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_tasks)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul"
+    ]
+  }
+}
