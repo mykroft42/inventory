@@ -51,7 +51,7 @@ The navigation bar shows only two links — Inventory (list) and Add Item — wi
 
 - **FR-001**: The app MUST remove the landing/home page component entirely
 - **FR-002**: The root route (`/`) MUST redirect to or render the inventory list page
-- **FR-003**: The navigation bar MUST contain exactly two destination links: the inventory list and the add item page
+- **FR-003**: The navigation bar MUST contain exactly two unique destination hrefs: `/inventory` (inventory list) and `/add-item` (add item page). A brand/logo link to `/inventory` is permitted in addition to the topbar link — it shares the same destination and does not count as a third unique destination.
 - **FR-004**: The navigation bar brand/logo link MUST navigate to the inventory list (not a home page)
 - **FR-005**: Unknown or unmatched routes MUST redirect to the inventory list
 - **FR-006**: The add item page and inventory list page MUST remain fully functional after the change
@@ -61,7 +61,7 @@ The navigation bar shows only two links — Inventory (list) and Add Item — wi
 ### Measurable Outcomes
 
 - **SC-001**: Visiting the app root URL loads the inventory list in one step — no intermediate page
-- **SC-002**: The navigation bar contains exactly 2 destination links on every page
+- **SC-002**: The navigation bar contains exactly 2 unique destination hrefs (`/inventory` and `/add-item`) on every page
 - **SC-003**: All existing inventory, add, update, and delete actions continue to work without regression
 - **SC-004**: All automated tests pass after the change (zero regressions)
 
