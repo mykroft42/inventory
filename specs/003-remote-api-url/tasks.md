@@ -17,7 +17,7 @@
 
 **Purpose**: Confirm existing test suite is green before introducing any changes
 
-- [ ] T001 Verify all existing tests pass as baseline: run `CI=true npm test --watchAll=false` in `frontend/` and `dotnet test` in `backend.Tests/`; record pass counts for regression tracking
+- [X] T001 Verify all existing tests pass as baseline: run `CI=true npm test --watchAll=false` in `frontend/` and `dotnet test` in `backend.Tests/`; record pass counts for regression tracking
 
 ---
 
@@ -29,12 +29,12 @@
 
 ### Tests (write first — must FAIL before implementation)
 
-- [ ] T002 [US1] Write failing unit test for `API_BASE_URL` fallback: verify that when `REACT_APP_API_URL` is not set, the base URL is constructed using `window.location.hostname` and port 5007; verify that when `REACT_APP_API_URL` is set, it takes precedence — in `frontend/src/services/inventoryApi.test.ts` (new file)
+- [X] T002 [US1] Write failing unit test for `API_BASE_URL` fallback: verify that when `REACT_APP_API_URL` is not set, the base URL is constructed using `window.location.hostname` and port 5007; verify that when `REACT_APP_API_URL` is set, it takes precedence — in `frontend/src/services/inventoryApi.test.ts` (new file)
 
 ### Implementation (after test is failing)
 
-- [ ] T003 [P] [US1] Update `inventoryApi.ts` fallback URL: change `'http://localhost:5007'` to `` `http://${window.location.hostname}:5007` `` so the API host auto-resolves to whichever machine the browser loaded the page from — in `frontend/src/services/inventoryApi.ts`
-- [ ] T004 [P] [US1] Update backend binding: change `applicationUrl` in the `http` profile from `http://localhost:5007` to `http://0.0.0.0:5007`, and in the `https` profile from `https://localhost:7262;http://localhost:5007` to `https://0.0.0.0:7262;http://0.0.0.0:5007` — in `backend/Properties/launchSettings.json`
+- [X] T003 [P] [US1] Update `inventoryApi.ts` fallback URL: change `'http://localhost:5007'` to `` `http://${window.location.hostname}:5007` `` so the API host auto-resolves to whichever machine the browser loaded the page from — in `frontend/src/services/inventoryApi.ts`
+- [X] T004 [P] [US1] Update backend binding: change `applicationUrl` in the `http` profile from `http://localhost:5007` to `http://0.0.0.0:5007`, and in the `https` profile from `https://localhost:7262;http://localhost:5007` to `https://0.0.0.0:7262;http://0.0.0.0:5007` — in `backend/Properties/launchSettings.json`
 
 **Checkpoint**: T002 must now PASS. `dotnet run` starts and accepts connections from LAN devices. Frontend served from any IP auto-targets the correct backend.
 
@@ -42,8 +42,8 @@
 
 ## Phase 3: Polish & Validation
 
-- [ ] T005 Run full test suites: `CI=true npm test --watchAll=false` in `frontend/` (all tests including T002 must pass, no regressions); `dotnet test` in `backend.Tests/` (all 18 tests must pass)
-- [ ] T006 Manual validation against quickstart.md: follow the setup steps to confirm a second device on the same network can load the inventory list and perform add/update/delete actions; confirm localhost access still works (SC-002 regression check)
+- [X] T005 Run full test suites: `CI=true npm test --watchAll=false` in `frontend/` (all tests including T002 must pass, no regressions); `dotnet test` in `backend.Tests/` (all 18 tests must pass)
+- [X] T006 Manual validation against quickstart.md: follow the setup steps to confirm a second device on the same network can load the inventory list and perform add/update/delete actions; confirm localhost access still works (SC-002 regression check)
 
 ---
 
