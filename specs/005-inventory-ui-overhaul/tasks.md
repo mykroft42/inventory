@@ -19,14 +19,14 @@
 
 **Purpose**: Replace the react-scripts build toolchain with Vite. Required before Tailwind/shadcn/ui can be initialized. All tasks must complete before Phase 2.
 
-- [ ] T001 Update `frontend/package.json`: remove `react-scripts`; add `vite`, `@vitejs/plugin-react`, `vite-tsconfig-paths` as devDependencies; run `npm install`
-- [ ] T002 Create `frontend/vite.config.ts` with `@vitejs/plugin-react` and `resolve.alias` mapping `@/` to `src/`
-- [ ] T003 [P] Create `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer` plugins
-- [ ] T004 Move `frontend/public/index.html` to `frontend/index.html`; add `<script type="module" src="/src/index.tsx"></script>` before `</body>`; remove `%PUBLIC_URL%` references
-- [ ] T005 Update `frontend/tsconfig.json`: add `"baseUrl": "."` and `"paths": { "@/*": ["src/*"] }`; set `"moduleResolution": "bundler"` or `"node"`
-- [ ] T006 Replace `frontend/src/react-app-env.d.ts` with `/// <reference types="vite/client" />`
-- [ ] T007 Update `frontend/package.json` scripts: `"start"` → `"dev": "vite"`, `"build"` → `"vite build"`, `"preview": "vite preview"`; update `"dev"` concurrently command to use `vite` instead of `react-scripts start`
-- [ ] T008 Update `frontend/src/services/inventoryApi.ts`: replace `process.env.REACT_APP_API_URL` with `import.meta.env.VITE_API_URL`; update any `.env` files to rename the variable
+- [X] T001 Update `frontend/package.json`: remove `react-scripts`; add `vite`, `@vitejs/plugin-react`, `vite-tsconfig-paths` as devDependencies; run `npm install`
+- [X] T002 Create `frontend/vite.config.ts` with `@vitejs/plugin-react` and `resolve.alias` mapping `@/` to `src/`
+- [X] T003 [P] Create `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer` plugins
+- [X] T004 Move `frontend/public/index.html` to `frontend/index.html`; add `<script type="module" src="/src/index.tsx"></script>` before `</body>`; remove `%PUBLIC_URL%` references
+- [X] T005 Update `frontend/tsconfig.json`: add `"baseUrl": "."` and `"paths": { "@/*": ["src/*"] }`; set `"moduleResolution": "bundler"` or `"node"`
+- [X] T006 Replace `frontend/src/react-app-env.d.ts` with `/// <reference types="vite/client" />`
+- [X] T007 Update `frontend/package.json` scripts: `"start"` → `"dev": "vite"`, `"build"` → `"vite build"`, `"preview": "vite preview"`; update `"dev"` concurrently command to use `vite` instead of `react-scripts start`
+- [X] T008 Update `frontend/src/services/inventoryApi.ts`: replace `process.env.REACT_APP_API_URL` with `import.meta.env.VITE_API_URL`; update any `.env` files to rename the variable
 
 **Checkpoint**: Run `npm run dev` from `frontend/` — existing app must load in browser at Vite dev server URL before proceeding.
 
