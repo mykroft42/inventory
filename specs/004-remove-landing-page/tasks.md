@@ -17,7 +17,7 @@
 
 **Purpose**: Confirm existing test suite is green before introducing any changes
 
-- [ ] T001 Verify all existing tests pass as baseline: run `CI=true npm test --watchAll=false` in `frontend/` and `dotnet test` in `backend.Tests/`; record pass counts for regression tracking
+- [X] T001 Verify all existing tests pass as baseline: run `CI=true npm test --watchAll=false` in `frontend/` and `dotnet test` in `backend.Tests/`; record pass counts for regression tracking
 
 ---
 
@@ -29,11 +29,11 @@
 
 ### Tests (write first — must FAIL before implementation)
 
-- [ ] T002 [US1] Write failing tests for root URL redirect and unknown route redirect: add two tests in `frontend/src/App.test.tsx` — (1) renders `<App />` with `MemoryRouter initialEntries={['/']}` and asserts the inventory list is displayed (and the old "Household Inventory" home heading is NOT present); (2) renders with `initialEntries={['/nonexistent']}` and asserts the inventory list is displayed (covers FR-005)
+- [X] T002 [US1] Write failing tests for root URL redirect and unknown route redirect: add two tests in `frontend/src/App.test.tsx` — (1) renders `<App />` with `MemoryRouter initialEntries={['/']}` and asserts the inventory list is displayed (and the old "Household Inventory" home heading is NOT present); (2) renders with `initialEntries={['/nonexistent']}` and asserts the inventory list is displayed (covers FR-005)
 
 ### Implementation (after T002 is failing)
 
-- [ ] T003 [US1] Remove `Home` component and update routing in `frontend/src/App.tsx`: delete the `Home` function, add `Navigate` to the react-router-dom import, change root route from `<Route path="/" element={<Home />} />` to `<Route path="/" element={<Navigate to="/inventory" replace />} />`, and add catch-all `<Route path="*" element={<Navigate to="/inventory" replace />} />`
+- [X] T003 [US1] Remove `Home` component and update routing in `frontend/src/App.tsx`: delete the `Home` function, add `Navigate` to the react-router-dom import, change root route from `<Route path="/" element={<Home />} />` to `<Route path="/" element={<Navigate to="/inventory" replace />} />`, and add catch-all `<Route path="*" element={<Navigate to="/inventory" replace />} />`
 
 **Checkpoint**: T002 must now PASS. Navigating to `/` redirects to `/inventory`. Unknown routes redirect to inventory list.
 
@@ -47,11 +47,11 @@
 
 ### Tests (write first — must FAIL before implementation)
 
-- [ ] T004 [US2] Write failing test for nav bar destination hrefs: add a test in `frontend/src/App.test.tsx` that renders `<App />`, queries all `<a>` elements inside the nav, extracts their `href` values, de-duplicates them, and asserts exactly 2 unique destinations exist (`/inventory` and `/add-item`) with no href pointing to `/` (the old Home route). Do not assert on raw link count — the brand and topbar "Inventory" links both point to `/inventory` and share a destination.
+- [X] T004 [US2] Write failing test for nav bar destination hrefs: add a test in `frontend/src/App.test.tsx` that renders `<App />`, queries all `<a>` elements inside the nav, extracts their `href` values, de-duplicates them, and asserts exactly 2 unique destinations exist (`/inventory` and `/add-item`) with no href pointing to `/` (the old Home route). Do not assert on raw link count — the brand and topbar "Inventory" links both point to `/inventory` and share a destination.
 
 ### Implementation (after T004 is failing)
 
-- [ ] T005 [US2] Update navigation bar in `frontend/src/App.tsx`: change the brand `<Link to="/">` to `<Link to="/inventory">` so the logo navigates to the inventory list; confirm the nav contains exactly the "Inventory" and "Add Item" topbar links and no Home link
+- [X] T005 [US2] Update navigation bar in `frontend/src/App.tsx`: change the brand `<Link to="/">` to `<Link to="/inventory">` so the logo navigates to the inventory list; confirm the nav contains exactly the "Inventory" and "Add Item" topbar links and no Home link
 
 **Checkpoint**: T004 must now PASS. Nav bar shows exactly 2 destination links. Brand/logo navigates to inventory list.
 
@@ -59,8 +59,8 @@
 
 ## Phase 4: Polish & Validation
 
-- [ ] T006 Run full test suites with coverage: `CI=true npm test --watchAll=false --coverage --coverageThreshold='{"global":{"lines":80,"functions":80,"branches":80,"statements":80}}'` in `frontend/` (all tests including T002 and T004 must pass, coverage must meet ≥80% threshold, no regressions); `dotnet test` in `backend.Tests/` (all backend tests must pass)
-- [ ] T007 Manual validation against quickstart.md: confirm root URL loads inventory list, nav bar shows 2 links, brand link works, unknown route redirects, and all CRUD actions still function
+- [X] T006 Run full test suites with coverage: `CI=true npm test --watchAll=false --coverage --coverageThreshold='{"global":{"lines":80,"functions":80,"branches":80,"statements":80}}'` in `frontend/` (all tests including T002 and T004 must pass, coverage must meet ≥80% threshold, no regressions); `dotnet test` in `backend.Tests/` (all backend tests must pass)
+- [X] T007 Manual validation against quickstart.md: confirm root URL loads inventory list, nav bar shows 2 links, brand link works, unknown route redirects, and all CRUD actions still function
 
 ---
 
