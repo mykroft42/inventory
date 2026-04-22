@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
-import './App.css';
+import { Toaster } from './components/ui/sonner';
 import InventoryPage from './pages/InventoryPage';
 import AddItemPage from './pages/AddItemPage';
 
@@ -22,6 +22,7 @@ function App() {
           <Route path="*" element={<Navigate to="/inventory" replace />} />
         </Routes>
       </main>
+      <Toaster />
     </>
   );
 }

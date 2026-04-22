@@ -36,19 +36,19 @@
 
 **Purpose**: Install and configure the UI framework layer. All user story phases depend on these components existing. **⚠️ No user story work can begin until Phase 2 is complete.**
 
-- [ ] T009 Install Tailwind CSS v3 dependencies in `frontend/`: `npm install -D tailwindcss@^3 autoprefixer`
-- [ ] T010 Create `frontend/tailwind.config.js`: set `content` to `["./index.html", "./src/**/*.{ts,tsx}"]`; include `tailwindcss-animate` in plugins (install: `npm install tailwindcss-animate`)
-- [ ] T011 Replace `frontend/src/index.css` with Tailwind base directives (`@tailwind base/components/utilities`) and shadcn/ui CSS variable theme block (`:root { --background: ...; --foreground: ...; ... }`)
-- [ ] T012 Delete `frontend/src/App.css`; remove `import './App.css'` from `frontend/src/App.tsx`
-- [ ] T013 Initialize shadcn/ui: create `frontend/components.json` configured for React, TypeScript, `@/components/ui` path, `@/lib/utils` utility; create `frontend/src/lib/utils.ts` with `cn` helper (`clsx` + `tailwind-merge`); install peer deps: `npm install clsx tailwind-merge class-variance-authority`
-- [ ] T014 [P] Add shadcn/ui Table component: copy generated `table.tsx` to `frontend/src/components/ui/table.tsx`
-- [ ] T015 [P] Add shadcn/ui Button component: copy generated `button.tsx` to `frontend/src/components/ui/button.tsx`
-- [ ] T016 [P] Add shadcn/ui Input component: copy generated `input.tsx` to `frontend/src/components/ui/input.tsx`
-- [ ] T017 [P] Add shadcn/ui Badge component: copy generated `badge.tsx` to `frontend/src/components/ui/badge.tsx`
-- [ ] T018 [P] Add shadcn/ui Select component: copy generated `select.tsx` to `frontend/src/components/ui/select.tsx`
-- [ ] T019 [P] Add shadcn/ui Label component: copy generated `label.tsx` to `frontend/src/components/ui/label.tsx`
-- [ ] T020 [P] Add shadcn/ui Sonner component: install `sonner`; copy generated `sonner.tsx` to `frontend/src/components/ui/sonner.tsx`
-- [ ] T021 Add `<Toaster />` from `frontend/src/components/ui/sonner.tsx` to `frontend/src/App.tsx` (placed inside the root fragment, outside `<Routes>`)
+- [X] T009 Install Tailwind CSS v3 dependencies in `frontend/`: `npm install -D tailwindcss@^3 autoprefixer`
+- [X] T010 Create `frontend/tailwind.config.js`: set `content` to `["./index.html", "./src/**/*.{ts,tsx}"]`; include `tailwindcss-animate` in plugins (install: `npm install tailwindcss-animate`)
+- [X] T011 Replace `frontend/src/index.css` with Tailwind base directives (`@tailwind base/components/utilities`) and shadcn/ui CSS variable theme block (`:root { --background: ...; --foreground: ...; ... }`)
+- [X] T012 Delete `frontend/src/App.css`; remove `import './App.css'` from `frontend/src/App.tsx`
+- [X] T013 Initialize shadcn/ui: create `frontend/components.json` configured for React, TypeScript, `@/components/ui` path, `@/lib/utils` utility; create `frontend/src/lib/utils.ts` with `cn` helper (`clsx` + `tailwind-merge`); install peer deps: `npm install clsx tailwind-merge class-variance-authority`
+- [X] T014 [P] Add shadcn/ui Table component: copy generated `table.tsx` to `frontend/src/components/ui/table.tsx`
+- [X] T015 [P] Add shadcn/ui Button component: copy generated `button.tsx` to `frontend/src/components/ui/button.tsx`
+- [X] T016 [P] Add shadcn/ui Input component: copy generated `input.tsx` to `frontend/src/components/ui/input.tsx`
+- [X] T017 [P] Add shadcn/ui Badge component: copy generated `badge.tsx` to `frontend/src/components/ui/badge.tsx`
+- [X] T018 [P] Add shadcn/ui Select component: copy generated `select.tsx` to `frontend/src/components/ui/select.tsx`
+- [X] T019 [P] Add shadcn/ui Label component: copy generated `label.tsx` to `frontend/src/components/ui/label.tsx`
+- [X] T020 [P] Add shadcn/ui Sonner component: install `sonner`; copy generated `sonner.tsx` to `frontend/src/components/ui/sonner.tsx`
+- [X] T021 Add `<Toaster />` from `frontend/src/components/ui/sonner.tsx` to `frontend/src/App.tsx` (placed inside the root fragment, outside `<Routes>`)
 
 **Checkpoint**: shadcn/ui Button renders without errors; Tailwind utility classes apply visible styles. Verify in browser before proceeding to user story phases.
 
