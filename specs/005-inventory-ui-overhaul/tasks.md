@@ -108,13 +108,13 @@
 
 ### Tests for User Story 3 ⚠️ Write first — must FAIL before T038
 
-- [ ] T036 [US3] Add failing tests to `frontend/src/components/InventoryTable.test.tsx`: (a) item with past expiration date renders a `Badge` with text "Expired" in the Expires column; (b) item with future expiration renders no badge; (c) item with quantity 0 has row element with class containing `muted`; (d) item with quantity > 0 does not have muted row class
+- [X] T036 [US3] Add failing tests to `frontend/src/components/InventoryTable.test.tsx`: (a) item with past expiration date renders a `Badge` with text "Expired" in the Expires column; (b) item with future expiration renders no badge; (c) item with quantity 0 has row element with class containing `muted`; (d) item with quantity > 0 does not have muted row class
 
 ### Implementation for User Story 3
 
-- [ ] T037 [US3] Update `frontend/src/components/InventoryTable.tsx` Expiration column cell: compute `isExpired = expirationDate && new Date(expirationDate) <= new Date()`; render formatted date; if `isExpired`, render `<Badge variant="destructive">Expired</Badge>` from shadcn/ui after the date
-- [ ] T038 [US3] Update `frontend/src/components/InventoryTable.tsx` row class: apply `text-muted-foreground` Tailwind class to `<TableRow>` when `item.quantity === 0`; confirm decrement button remains disabled at zero regardless of muting
-- [ ] T039 [US3] Update `frontend/cypress/e2e/inventory.cy.ts`: add e2e scenario verifying expired badge visibility and zero-qty row dimming against live dev server
+- [X] T037 [US3] Update `frontend/src/components/InventoryTable.tsx` Expiration column cell: compute `isExpired = expirationDate && new Date(expirationDate) <= new Date()`; render formatted date; if `isExpired`, render `<Badge variant="destructive">Expired</Badge>` from shadcn/ui after the date
+- [X] T038 [US3] Update `frontend/src/components/InventoryTable.tsx` row class: apply `text-muted-foreground` Tailwind class to `<TableRow>` when `item.quantity === 0`; confirm decrement button remains disabled at zero regardless of muting
+- [X] T039 [US3] Update `frontend/cypress/e2e/inventory.cy.ts`: add e2e scenario verifying expired badge visibility and zero-qty row dimming against live dev server
 
 **Checkpoint**: All three user stories independently functional. Expired and zero-qty items distinguishable at a glance. Run `npm test` — all test files pass.
 
@@ -124,10 +124,10 @@
 
 **Purpose**: Final validation, dead code removal, coverage verification.
 
-- [ ] T040 [P] Confirm all dead code removed: `frontend/src/App.css` deleted; `InventoryList.tsx`, `InventoryList.test.tsx`, `UndoToast.tsx`, `UndoToast.test.tsx` deleted; no unused `import` statements remain in any modified file
-- [ ] T041 [P] Run full Jest test suite from `frontend/`: confirm all tests pass and frontend coverage meets ≥80% threshold per Constitution Principle II
-- [ ] T042 [P] Run Cypress e2e suite (`npm run cypress:run` from `frontend/`): confirm all scenarios pass including add-item, quantity-update, delete-with-undo, expired-badge, zero-qty-muting
-- [ ] T043 Run quickstart.md validation: `npm run dev` starts Vite server; `npm test` passes; `dotnet run` (backend) starts; full app loads and all pages function end-to-end
+- [X] T040 [P] Confirm all dead code removed: `frontend/src/App.css` deleted; `InventoryList.tsx`, `InventoryList.test.tsx`, `UndoToast.tsx`, `UndoToast.test.tsx` deleted; no unused `import` statements remain in any modified file
+- [X] T041 [P] Run full Jest test suite from `frontend/`: confirm all tests pass and frontend coverage meets ≥80% threshold per Constitution Principle II
+- [X] T042 [P] Run Cypress e2e suite (`npm run cypress:run` from `frontend/`): confirm all scenarios pass including add-item, quantity-update, delete-with-undo, expired-badge, zero-qty-muting
+- [X] T043 Run quickstart.md validation: `npm run dev` starts Vite server; `npm test` passes; `dotnet run` (backend) starts; full app loads and all pages function end-to-end
 
 ---
 

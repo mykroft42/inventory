@@ -42,6 +42,7 @@
     "analyze": "npm run build && npx serve -s build -l 3001",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:run:full": "start-server-and-test start http://localhost:5173 cypress:run",
     "test:e2e": "cypress run --spec 'cypress/e2e/**/*.cy.ts'"
   },
   "proxy": "http://localhost:5007",
@@ -52,6 +53,7 @@
     "concurrently": "^9.2.1",
     "cypress": "^13.15.0",
     "jsdom": "^29.0.2",
+    "start-server-and-test": "^3.0.2",
     "tailwindcss": "^3.4.19",
     "vite": "^5.4.19",
     "vitest": "^4.1.5"

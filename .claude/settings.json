@@ -55,10 +55,29 @@
       "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-Object -Last 30\")",
       "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 'src/components/AddItemForm.test.tsx' 'src/components/QuickAddForm.test.tsx' 2>&1 | Select-String -Pattern '\\(FAIL|PASS|Tests|Test Files\\)' | Select-Object -Last 15\")",
       "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"Set-Location 'C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend'; node 'node_modules/vitest/vitest.mjs' run 2>&1 | Select-Object -Last 25\")",
-      "PowerShell(.specify/extensions/git/scripts/powershell/auto-commit.ps1 after_implement)"
+      "PowerShell(.specify/extensions/git/scripts/powershell/auto-commit.ps1 after_implement)",
+      "Bash(powershell.exe -Command \"\\(New-Object System.Net.Sockets.TcpClient\\).Connect\\('localhost', 5007\\)\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(powershell.exe -Command \"\\(New-Object System.Net.Sockets.TcpClient\\).Connect\\('localhost', 5173\\)\")",
+      "Bash(npm run *)",
+      "Bash(echo \"Vite started, PID=$!\")",
+      "Bash(dotnet run *)",
+      "Read(//c/Users/mykro/AppData/Local/Temp/claude/c--Users-mykro-projects-inventory/d0e7bf7c-7759-4bff-a63a-7ab3b4b41641/tasks/**)",
+      "Bash(powershell.exe -Command \"try { \\(New-Object System.Net.Sockets.TcpClient\\).Connect\\('localhost', 5173\\); Write-Output 'open' } catch { Write-Output 'closed' }\")",
+      "Bash(powershell.exe -Command \"try { \\(New-Object System.Net.Sockets.TcpClient\\).Connect\\('localhost', 5007\\); Write-Output 'open' } catch { Write-Output 'closed' }\")",
+      "Bash(powershell.exe -Command \"Start-Process -FilePath 'cmd.exe' -ArgumentList '/c cd /d C:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npm run dev' -WindowStyle Hidden\")",
+      "Bash(powershell.exe -Command \"Start-Process -FilePath 'powershell.exe' -ArgumentList '-NoProfile -Command \\\\\"Set-Location C:\\\\\\\\Users\\\\\\\\mykro\\\\\\\\projects\\\\\\\\inventory\\\\\\\\frontend; npm run dev\\\\\"' -WindowStyle Hidden\")",
+      "Bash(powershell.exe -Command \"Get-Process -Name 'node' -ErrorAction SilentlyContinue | Select-Object Id,Name,CommandLine | Format-List\")",
+      "Bash(powershell.exe -Command \"netstat -ano | Select-String ':517'\")",
+      "Bash(npx cypress *)",
+      "Bash(\"C:/Users/mykro/AppData/Local/Cypress/Cache/13.17.0/Cypress/Cypress.exe\" --version)",
+      "Bash(CYPRESS_SKIP_VERIFY=true npx cypress run --spec \"frontend/cypress/e2e/inventory.cy.ts\")",
+      "Bash(powershell.exe -Command \"Get-Process -Name 'node' -ErrorAction SilentlyContinue | Stop-Process -Force; Write-Output 'Done'\")",
+      "Bash(powershell.exe -Command \"Get-NetTCPConnection -LocalPort 5007,5173,5174 -ErrorAction SilentlyContinue | Select-Object LocalPort, OwningProcess\")"
     ],
     "additionalDirectories": [
-      "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul"
+      "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
+      "C:\\Users\\mykro\\projects\\inventory\\frontend\\src"
     ]
   }
 }

@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import QuantityCell from './QuantityCell';
 
 interface DeletedState {
@@ -155,10 +156,13 @@ const InventoryTable: React.FC = () => {
             >
               <TableCell className="max-w-[30ch] truncate font-medium">{item.name}</TableCell>
               <TableCell className="hidden sm:table-cell">{item.category ?? '—'}</TableCell>
-              <TableCell className={`hidden sm:table-cell ${isExpired ? 'text-destructive' : ''}`}>
+              <TableCell className="hidden sm:table-cell">
                 {item.expirationDate
                   ? new Date(item.expirationDate).toLocaleDateString()
                   : '—'}
+                {isExpired && (
+                  <Badge variant="destructive" className="ml-2">Expired</Badge>
+                )}
               </TableCell>
               <TableCell>
                 <QuantityCell

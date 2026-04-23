@@ -32,7 +32,7 @@ dotnet run
 Or both together (from `frontend/`):
 
 ```bash
-npm run dev:full   # concurrently runs Vite + dotnet
+npm start          # concurrently runs Vite + dotnet
 ```
 
 ### 2. Adding shadcn/ui components (for contributors)
