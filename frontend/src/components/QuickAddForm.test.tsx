@@ -2,24 +2,25 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 import QuickAddForm from './QuickAddForm';
 import { inventoryApi, InventoryItem } from '../services/inventoryApi';
 
-jest.mock('../services/inventoryApi');
-const mockApi = inventoryApi as jest.Mocked<typeof inventoryApi>;
+vi.mock('../services/inventoryApi');
+const mockApi = vi.mocked(inventoryApi);
 
 const existingItems: InventoryItem[] = [
-  { id: 1, name: 'Milk', quantity: 2, category: 'Groceries', createdAt: '', updatedAt: '' },
-  { id: 2, name: 'Bread', quantity: 1, category: 'Groceries', createdAt: '', updatedAt: '' },
+  { id: 1, name: 'Milk', quantity: 2, category: 'Groceries', expirationDate: null, createdAt: '', updatedAt: '' },
+  { id: 2, name: 'Bread', quantity: 1, category: 'Groceries', expirationDate: null, createdAt: '', updatedAt: '' },
 ];
 
-function setup(items = existingItems, onSuccess = jest.fn()) {
+function setup(items = existingItems, onSuccess = vi.fn()) {
   render(<QuickAddForm items={items} onSuccess={onSuccess} />);
   return { onSuccess };
 }
 
 describe('QuickAddForm', () => {
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => vi.clearAllMocks());
 
   test('renders name input (combobox) and quantity field', () => {
     setup();
@@ -58,7 +59,7 @@ describe('QuickAddForm', () => {
   });
 
   test('calls create API for a new item name', async () => {
-    mockApi.create.mockResolvedValue({ id: 3, name: 'Eggs', quantity: 6, category: 'Groceries', createdAt: '', updatedAt: '' });
+    mockApi.create.mockResolvedValue({ id: 3, name: 'Eggs', quantity: 6, category: 'Groceries', expirationDate: null, createdAt: '', updatedAt: '' });
     setup();
 
     const nameInput = screen.getByRole('combobox');
@@ -93,7 +94,7 @@ describe('QuickAddForm', () => {
   });
 
   test('resets form and focuses name input after successful create', async () => {
-    mockApi.create.mockResolvedValue({ id: 3, name: 'Eggs', quantity: 6, category: 'Groceries', createdAt: '', updatedAt: '' });
+    mockApi.create.mockResolvedValue({ id: 3, name: 'Eggs', quantity: 6, category: 'Groceries', expirationDate: null, createdAt: '', updatedAt: '' });
     const { onSuccess } = setup();
 
     fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Eggs' } });

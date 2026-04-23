@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
 import { inventoryApi } from '../services/inventoryApi';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface AddItemFormProps {
   onItemAdded: () => void;
@@ -10,28 +20,19 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
     name: '',
     quantity: '',
     category: '',
-    expirationDate: ''
+    expirationDate: '',
   });
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validateForm = () => {
-    const newErrors: {[key: string]: string} = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
     const quantity = parseInt(formData.quantity, 10);
-    if (formData.quantity === '' || isNaN(quantity) || quantity < 0) {
+    if (formData.quantity === '' || isNaN(quantity) || quantity < 0)
       newErrors.quantity = 'Quantity cannot be negative';
-    }
-
-    if (!formData.category) {
-      newErrors.category = 'Category is required';
-    }
-
+    if (!formData.category) newErrors.category = 'Category is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -39,120 +40,101 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
-
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     setIsSubmitting(true);
-
     try {
-      const itemData = {
+      await inventoryApi.create({
         name: formData.name.trim(),
         quantity: parseInt(formData.quantity, 10),
         category: formData.category as 'Groceries' | 'Medications' | 'Consumables',
         expirationDate: formData.expirationDate || undefined,
-      };
-
-      await inventoryApi.create(itemData);
-      onItemAdded();
-
-      // Reset form
-      setFormData({
-        name: '',
-        quantity: '',
-        category: '',
-        expirationDate: ''
       });
+      onItemAdded();
+      setFormData({ name: '', quantity: '', category: '', expirationDate: '' });
       setErrors({});
     } catch (error) {
-      if (error instanceof Error) {
-        setSubmitError(error.message);
-      } else {
-        setSubmitError('Failed to add item. Please try again.');
-      }
+      setSubmitError(error instanceof Error ? error.message : 'Failed to add item. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-
-    if (submitError) {
-      setSubmitError(null);
-    }
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    if (submitError) setSubmitError(null);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="add-item-form" aria-labelledby="add-item-title">
-      <h2 id="add-item-title">Add New Inventory Item</h2>
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md" aria-labelledby="add-item-title">
+      <h2 id="add-item-title" className="text-xl font-semibold">Add New Inventory Item</h2>
 
-      <div className="form-group">
-        <label htmlFor="name">Name</label>
-        <input
+      <div className="space-y-1">
+        <Label htmlFor="name">Name</Label>
+        <Input
           type="text"
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className={errors.name ? 'error' : ''}
-          aria-describedby={errors.name ? "name-error" : undefined}
-          aria-invalid={!!errors.name}
-          required
           aria-label="Item name"
+          aria-describedby={errors.name ? 'name-error' : undefined}
+          aria-invalid={!!errors.name}
         />
-        {errors.name && <span id="name-error" className="error-message" role="alert">{errors.name}</span>}
+        {errors.name && (
+          <span id="name-error" className="text-destructive text-sm" role="alert">{errors.name}</span>
+        )}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="quantity">Quantity</label>
-        <input
+      <div className="space-y-1">
+        <Label htmlFor="quantity">Quantity</Label>
+        <Input
           type="number"
           id="quantity"
           name="quantity"
           value={formData.quantity}
           onChange={handleChange}
           min="0"
-          className={errors.quantity ? 'error' : ''}
-          aria-describedby={errors.quantity ? "quantity-error" : undefined}
-          aria-invalid={!!errors.quantity}
-          required
           aria-label="Item quantity"
+          aria-describedby={errors.quantity ? 'quantity-error' : undefined}
+          aria-invalid={!!errors.quantity}
         />
-        {errors.quantity && <span id="quantity-error" className="error-message" role="alert">{errors.quantity}</span>}
+        {errors.quantity && (
+          <span id="quantity-error" className="text-destructive text-sm" role="alert">{errors.quantity}</span>
+        )}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="category">Category</label>
-        <select
-          id="category"
-          name="category"
+      <div className="space-y-1">
+        <Label htmlFor="category-trigger">Category</Label>
+        <Select
           value={formData.category}
-          onChange={handleChange}
-          className={errors.category ? 'error' : ''}
-          aria-describedby={errors.category ? "category-error" : undefined}
-          aria-invalid={!!errors.category}
-          required
-          aria-label="Item category"
+          onValueChange={value => {
+            setFormData(prev => ({ ...prev, category: value }));
+            if (errors.category) setErrors(prev => ({ ...prev, category: '' }));
+          }}
         >
-          <option value="">Select category</option>
-          <option value="Groceries">Groceries</option>
-          <option value="Medications">Medications</option>
-          <option value="Consumables">Consumables</option>
-        </select>
-        {errors.category && <span id="category-error" className="error-message" role="alert">{errors.category}</span>}
+          <SelectTrigger
+            id="category-trigger"
+            aria-label="Item category"
+            aria-invalid={!!errors.category}
+          >
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Groceries">Groceries</SelectItem>
+            <SelectItem value="Medications">Medications</SelectItem>
+            <SelectItem value="Consumables">Consumables</SelectItem>
+          </SelectContent>
+        </Select>
+        {errors.category && (
+          <span id="category-error" className="text-destructive text-sm" role="alert">{errors.category}</span>
+        )}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="expirationDate">Expiration Date (optional)</label>
-        <input
+      <div className="space-y-1">
+        <Label htmlFor="expirationDate">Expiration Date (optional)</Label>
+        <Input
           type="date"
           id="expirationDate"
           name="expirationDate"
@@ -162,17 +144,13 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onItemAdded }) => {
         />
       </div>
 
-      {submitError && <div className="error-message" role="alert" aria-live="assertive">{submitError}</div>}
+      {submitError && (
+        <div className="text-destructive text-sm" role="alert" aria-live="assertive">{submitError}</div>
+      )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn"
-        aria-describedby={isSubmitting ? "submitting-status" : undefined}
-      >
+      <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? 'Adding Item...' : 'Add Item'}
-      </button>
-      {isSubmitting && <span id="submitting-status" className="sr-only">Submitting form, please wait</span>}
+      </Button>
     </form>
   );
 };

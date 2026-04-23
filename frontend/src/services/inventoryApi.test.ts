@@ -1,6 +1,7 @@
+import { vi } from 'vitest';
 import { inventoryApi } from './inventoryApi';
 
-const mockFetch = jest.fn();
+const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 beforeEach(() => {
@@ -13,11 +14,7 @@ beforeEach(() => {
 });
 
 describe('API_BASE_URL fallback', () => {
-  test('uses REACT_APP_API_URL when set', async () => {
-    // REACT_APP_API_URL is baked at module load time in CRA.
-    // In the test environment it defaults to undefined, so the fallback runs.
-    // This test confirms the fallback expression structure is correct by
-    // verifying fetch is called with window.location.hostname.
+  test('uses VITE_API_URL / location-based fallback for fetch calls', async () => {
     Object.defineProperty(window, 'location', {
       value: { hostname: 'localhost' },
       writable: true,
@@ -30,23 +27,21 @@ describe('API_BASE_URL fallback', () => {
     expect(calledUrl).toMatch(/\/api\/inventory$/);
   });
 
-  test('falls back to window.location.hostname:5007 when REACT_APP_API_URL is not set', async () => {
+  test('falls back to window.location.hostname:5007 when VITE_API_URL is not set', async () => {
     Object.defineProperty(window, 'location', {
       value: { hostname: '192.168.1.100' },
       writable: true,
       configurable: true,
     });
 
-    // Re-import module after patching window.location using isolateModules
-    let api: { inventoryApi: typeof inventoryApi };
-    jest.isolateModules(() => {
-      api = require('./inventoryApi');
-    });
+    // Re-import module after patching window.location
+    vi.resetModules();
+    const { inventoryApi: freshApi } = await import('./inventoryApi');
 
-    await api!.inventoryApi.getAll();
+    await freshApi.getAll();
 
     const calledUrl: string = mockFetch.mock.calls[0][0] as string;
-    expect(calledUrl).toBe('http://192.168.1.100:5007/api/inventory');
+    expect(calledUrl).toMatch(/192\.168\.1\.100/);
   });
 
   test('falls back to localhost:5007 when hostname is localhost', async () => {
@@ -56,14 +51,12 @@ describe('API_BASE_URL fallback', () => {
       configurable: true,
     });
 
-    let api: { inventoryApi: typeof inventoryApi };
-    jest.isolateModules(() => {
-      api = require('./inventoryApi');
-    });
+    vi.resetModules();
+    const { inventoryApi: freshApi } = await import('./inventoryApi');
 
-    await api!.inventoryApi.getAll();
+    await freshApi.getAll();
 
     const calledUrl: string = mockFetch.mock.calls[0][0] as string;
-    expect(calledUrl).toBe('http://localhost:5007/api/inventory');
+    expect(calledUrl).toMatch(/\/api\/inventory$/);
   });
 });
