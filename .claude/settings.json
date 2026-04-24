@@ -73,11 +73,19 @@
       "Bash(\"C:/Users/mykro/AppData/Local/Cypress/Cache/13.17.0/Cypress/Cypress.exe\" --version)",
       "Bash(CYPRESS_SKIP_VERIFY=true npx cypress run --spec \"frontend/cypress/e2e/inventory.cy.ts\")",
       "Bash(powershell.exe -Command \"Get-Process -Name 'node' -ErrorAction SilentlyContinue | Stop-Process -Force; Write-Output 'Done'\")",
-      "Bash(powershell.exe -Command \"Get-NetTCPConnection -LocalPort 5007,5173,5174 -ErrorAction SilentlyContinue | Select-Object LocalPort, OwningProcess\")"
+      "Bash(powershell.exe -Command \"Get-NetTCPConnection -LocalPort 5007,5173,5174 -ErrorAction SilentlyContinue | Select-Object LocalPort, OwningProcess\")",
+      "PowerShell(.specify/extensions/git/scripts/powershell/create-new-feature.ps1 -Json -ShortName \"sort-detail-view\" \"make the default sort be alphabetical with 0 quantity items forced to the bottom. additionally move the remove button and the date columns to a detail page available by clicking a linked backed into the name of the item. add a checkmark next to items that are expired if that field is filled in and out of date\")",
+      "Bash(powershell -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -PathsOnly)",
+      "Bash(powershell -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_clarify\")",
+      "Bash(powershell.exe -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
+      "Bash(powershell.exe -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_plan\")",
+      "PowerShell(.\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1 -Json)",
+      "PowerShell(.\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1 after_tasks)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
-      "C:\\Users\\mykro\\projects\\inventory\\frontend\\src"
+      "C:\\Users\\mykro\\projects\\inventory\\frontend\\src",
+      "C:\\Users\\mykro\\projects\\inventory\\specs\\006-sort-detail-view"
     ]
   }
 }
