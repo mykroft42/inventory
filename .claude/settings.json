@@ -85,7 +85,10 @@
       "PowerShell(cd frontend && npm test -- --reporter=verbose 2>&1 | Select-String -Pattern \"\\(PASS|FAIL|✓|✗|×|√|three-tier|FAILED|Error\\)\" | Select-Object -First 50)",
       "PowerShell(cd c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npm test -- --run --reporter=verbose 2>&1 | Select-Object -Last 70)",
       "PowerShell(cd c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npm test -- --run --reporter=verbose 2>&1 | Select-Object -Last 80)",
-      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_implement)"
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_implement)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\create-new-feature.ps1\" -Json -ShortName \"edit-item-fields\" \"add the ability to edit the category and expiration date of the item on the item detail page\")",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json -PathsOnly)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_clarify)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
