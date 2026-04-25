@@ -88,7 +88,10 @@
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_implement)",
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\create-new-feature.ps1\" -Json -ShortName \"edit-item-fields\" \"add the ability to edit the category and expiration date of the item on the item detail page\")",
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json -PathsOnly)",
-      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_clarify)"
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_clarify)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\setup-plan.ps1\" -Json)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_plan)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
