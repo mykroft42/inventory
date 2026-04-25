@@ -49,6 +49,9 @@ export const inventoryApi = {
   async getById(id: number): Promise<InventoryItem> {
     const response = await fetch(`${API_BASE_URL}/api/inventory/${id}`);
     if (!response.ok) {
+      if (response.status === 404) {
+        throw Object.assign(new Error('Item not found'), { status: 404 });
+      }
       await parseError(response, 'Failed to fetch inventory item.');
     }
     return response.json();

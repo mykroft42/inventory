@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 import { inventoryApi, InventoryItem } from '../services/inventoryApi';
 import {
   Table,
@@ -10,12 +10,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { TriangleAlert } from 'lucide-react';
 import QuantityCell from './QuantityCell';
 
-interface DeletedState {
-  item: InventoryItem;
-  error: string | null;
+function isExpiredItem(item: InventoryItem): boolean {
+  return item.expirationDate != null && new Date(item.expirationDate) <= new Date();
+}
+
+function sortInventoryItems(items: InventoryItem[]): InventoryItem[] {
+  const tierKey = (item: InventoryItem): number => {
+    if (item.quantity === 0) return 2;
+    if (isExpiredItem(item)) return 0;
+    return 1;
+  };
+  return [...items].sort((a, b) => {
+    const tierDiff = tierKey(a) - tierKey(b);
+    if (tierDiff !== 0) return tierDiff;
+    return a.name.localeCompare(b.name);
+  });
 }
 
 const InventoryTable: React.FC = () => {
@@ -23,7 +35,6 @@ const InventoryTable: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [updatingItems, setUpdatingItems] = useState<Set<number>>(new Set());
-  const [deleted, setDeleted] = useState<DeletedState | null>(null);
   const [editingQty, setEditingQty] = useState<{ id: number; value: string; error: string } | null>(null);
 
   const fetchItems = async () => {
@@ -60,33 +71,6 @@ const InventoryTable: React.FC = () => {
       setError(err instanceof Error ? err.message : 'Failed to update quantity. Please try again.');
     } finally {
       setUpdatingItems(prev => { const s = new Set(prev); s.delete(id); return s; });
-    }
-  };
-
-  const handleDelete = async (item: InventoryItem) => {
-    setItems(prev => prev.filter(i => i.id !== item.id));
-    try {
-      await inventoryApi.delete(item.id);
-      setDeleted({ item, error: null });
-      toast(`"${item.name}" removed`, {
-        action: {
-          label: 'Undo',
-          onClick: () => handleUndo(item),
-        },
-      });
-    } catch {
-      setItems(prev => [...prev, item]);
-      setDeleted({ item, error: 'Failed to remove — please try again' });
-    }
-  };
-
-  const handleUndo = async (item: InventoryItem) => {
-    try {
-      const restored = await inventoryApi.restoreItem(item.id);
-      setItems(prev => [...prev, restored]);
-      setDeleted(null);
-    } catch {
-      setError('Failed to restore item. Please try again.');
     }
   };
 
@@ -140,30 +124,35 @@ const InventoryTable: React.FC = () => {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead className="hidden sm:table-cell">Category</TableHead>
-          <TableHead className="hidden sm:table-cell">Expires</TableHead>
           <TableHead>Qty</TableHead>
-          <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {items.map(item => {
-          const isExpired = item.expirationDate != null && new Date(item.expirationDate) <= new Date();
+        {sortInventoryItems(items).map(item => {
+          const isExpired = isExpiredItem(item);
           return (
             <TableRow
               key={item.id}
               data-testid={`inventory-row-${item.id}`}
               className={item.quantity === 0 ? 'text-muted-foreground' : ''}
             >
-              <TableCell className="max-w-[30ch] truncate font-medium">{item.name}</TableCell>
-              <TableCell className="hidden sm:table-cell">{item.category ?? '—'}</TableCell>
-              <TableCell className="hidden sm:table-cell">
-                {item.expirationDate
-                  ? new Date(item.expirationDate).toLocaleDateString()
-                  : '—'}
-                {isExpired && (
-                  <Badge variant="destructive" className="ml-2">Expired</Badge>
-                )}
+              <TableCell className="max-w-[30ch] font-medium">
+                <span className="flex items-center gap-1">
+                  <Link
+                    to={`/inventory/${item.id}`}
+                    className="truncate hover:underline"
+                  >
+                    {item.name}
+                  </Link>
+                  {isExpired && (
+                    <TriangleAlert
+                      aria-label="Expired warning"
+                      className="shrink-0 text-destructive w-4 h-4"
+                    />
+                  )}
+                </span>
               </TableCell>
+              <TableCell className="hidden sm:table-cell">{item.category ?? '—'}</TableCell>
               <TableCell>
                 <QuantityCell
                   item={item}
@@ -176,20 +165,6 @@ const InventoryTable: React.FC = () => {
                   onCancelEdit={cancelEditQty}
                   onEditChange={value => setEditingQty(prev => prev ? { ...prev, value, error: '' } : null)}
                 />
-                {deleted?.item.id === item.id && deleted.error && (
-                  <p className="text-destructive text-xs mt-1" role="alert">{deleted.error}</p>
-                )}
-              </TableCell>
-              <TableCell>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  type="button"
-                  onClick={() => handleDelete(item)}
-                  aria-label={`Remove ${item.name}`}
-                >
-                  Remove
-                </Button>
               </TableCell>
             </TableRow>
           );

@@ -4,6 +4,7 @@ import { Toaster } from './components/ui/sonner';
 import { Button } from './components/ui/button';
 import InventoryPage from './pages/InventoryPage';
 import AddItemPage from './pages/AddItemPage';
+import ItemDetailPage from './pages/ItemDetailPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<Navigate to="/inventory" replace />} />
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/add-item" element={<AddItemPage />} />
+          <Route path="/inventory/:id" element={<ItemDetailPage />} />
           <Route path="*" element={<Navigate to="/inventory" replace />} />
         </Routes>
       </main>
