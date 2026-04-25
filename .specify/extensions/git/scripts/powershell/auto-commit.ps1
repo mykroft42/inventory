@@ -61,6 +61,7 @@ if (Test-Path $configFile) {
     $inAutoCommit = $false
     $inEvent = $false
     $defaultEnabled = $false
+    $foundEnabledKey = $false
 
     foreach ($line in Get-Content $configFile) {
         # Detect auto_commit: section
@@ -96,6 +97,7 @@ if (Test-Path $configFile) {
                     continue
                 }
                 if ($line -match '\s+enabled:\s*(.+)$') {
+                    $foundEnabledKey = $true
                     $val = $matches[1].Trim().ToLower()
                     if ($val -eq 'true') { $enabled = $true }
                     if ($val -eq 'false') { $enabled = $false }
@@ -107,12 +109,9 @@ if (Test-Path $configFile) {
         }
     }
 
-    # If event-specific key not found, use default
-    if (-not $enabled -and $defaultEnabled) {
-        $hasEventKey = Select-String -Path $configFile -Pattern "^\s*${EventName}:" -Quiet
-        if (-not $hasEventKey) {
-            $enabled = $true
-        }
+    # If event key not found or has no explicit enabled setting, fall back to default
+    if (-not $foundEnabledKey -and $defaultEnabled) {
+        $enabled = $true
     }
 } else {
     # No config file — auto-commit disabled by default

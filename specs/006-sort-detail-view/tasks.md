@@ -19,8 +19,8 @@
 
 **Purpose**: Install the new Radix UI AlertDialog package and create the shared UI component needed by US2. US1 and US3 have no setup prerequisites beyond this phase.
 
-- [ ] T001 Install @radix-ui/react-alert-dialog npm package in frontend/
-- [ ] T002 Create Radix UI AlertDialog wrapper component in frontend/src/components/ui/alert-dialog.tsx following the existing shadcn/ui pattern (see research.md Decision 3)
+- [X] T001 Install @radix-ui/react-alert-dialog npm package in frontend/
+- [X] T002 Create Radix UI AlertDialog wrapper component in frontend/src/components/ui/alert-dialog.tsx following the existing shadcn/ui pattern (see research.md Decision 3)
 
 ---
 
@@ -32,11 +32,11 @@
 
 ### Tests for User Story 1 ⚠️ Write FIRST — verify they FAIL before proceeding
 
-- [ ] T003 [P] [US1] Add failing three-tier sort tests to frontend/src/components/InventoryTable.test.tsx covering: all-same-tier alphabetical order, expired-stocked above non-expired-stocked, zero-qty tier at bottom, tier transition after quantity update, case-insensitive tie-breaking
+- [X] T003 [P] [US1] Add failing three-tier sort tests to frontend/src/components/InventoryTable.test.tsx covering: all-same-tier alphabetical order, expired-stocked above non-expired-stocked, zero-qty tier at bottom, tier transition after quantity update, case-insensitive tie-breaking
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Implement `sortInventoryItems(items: InventoryItem[]): InventoryItem[]` pure function and apply it to the items array before render in frontend/src/components/InventoryTable.tsx (tier key: 0=expired qty>0, 1=non-expired qty>0, 2=qty=0; within tier: ascending `localeCompare`)
+- [X] T004 [US1] Implement `sortInventoryItems(items: InventoryItem[]): InventoryItem[]` pure function and apply it to the items array before render in frontend/src/components/InventoryTable.tsx (tier key: 0=expired qty>0, 1=non-expired qty>0, 2=qty=0; within tier: ascending `localeCompare`)
 
 **Checkpoint**: Inventory loads with correct three-tier sort; all T003 tests pass. No navigation needed to verify. US1 is MVP-complete.
 
@@ -50,14 +50,14 @@
 
 ### Tests for User Story 2 ⚠️ Write FIRST — verify they FAIL before proceeding
 
-- [ ] T005 [P] [US2] Create frontend/src/pages/ItemDetailPage.test.tsx with failing tests for: loading state renders, all fields displayed (name, quantity, category, expiration date), "—" shown for missing optional fields, Remove button opens AlertDialog, confirming deletes item and navigates to /inventory, cancelling stays on detail page unchanged, back control navigates to /inventory, 404 response renders not-found message with link back
-- [ ] T006 [P] [US2] Add failing tests for name-as-link and column removal to frontend/src/components/InventoryTable.test.tsx: item name renders as an anchor/Link element, no Remove button present in table rows, no expiration date column present in table
+- [X] T005 [P] [US2] Create frontend/src/pages/ItemDetailPage.test.tsx with failing tests for: loading state renders, all fields displayed (name, quantity, category, expiration date), "—" shown for missing optional fields, Remove button opens AlertDialog, confirming deletes item and navigates to /inventory, cancelling stays on detail page unchanged, back control navigates to /inventory, 404 response renders not-found message with link back
+- [X] T006 [P] [US2] Add failing tests for name-as-link and column removal to frontend/src/components/InventoryTable.test.tsx: item name renders as an anchor/Link element, no Remove button present in table rows, no expiration date column present in table
 
 ### Implementation for User Story 2
 
-- [ ] T007 [US2] Create frontend/src/pages/ItemDetailPage.tsx implementing the Loading → Loaded → ConfirmDialog → Deleting → Redirect state machine; call GET /api/inventory/:id and DELETE /api/inventory/:id per contracts/item-detail-api.md; render AlertDialog from alert-dialog.tsx on Remove click; navigate to /inventory after confirmed delete; render not-found message with Link on 404
-- [ ] T008 [P] [US2] Add /inventory/:id route pointing to ItemDetailPage component in frontend/src/App.tsx
-- [ ] T009 [P] [US2] Update frontend/src/components/InventoryTable.tsx: render item name as `<Link to={/inventory/${item.id}}>`, remove the Expires column header and all Expires cells, remove the Actions column header and all Remove button cells
+- [X] T007 [US2] Create frontend/src/pages/ItemDetailPage.tsx implementing the Loading → Loaded → ConfirmDialog → Deleting → Redirect state machine; call GET /api/inventory/:id and DELETE /api/inventory/:id per contracts/item-detail-api.md; render AlertDialog from alert-dialog.tsx on Remove click; navigate to /inventory after confirmed delete; render not-found message with Link on 404
+- [X] T008 [P] [US2] Add /inventory/:id route pointing to ItemDetailPage component in frontend/src/App.tsx
+- [X] T009 [P] [US2] Update frontend/src/components/InventoryTable.tsx: render item name as `<Link to={/inventory/${item.id}}>`, remove the Expires column header and all Expires cells, remove the Actions column header and all Remove button cells
 
 **Checkpoint**: Clicking an item name navigates to the detail page; all fields shown; Remove requires confirmation; confirmed delete returns to inventory; main table shows neither Remove nor Expires columns; all T005 and T006 tests pass.
 
@@ -71,11 +71,11 @@
 
 ### Tests for User Story 3 ⚠️ Write FIRST — verify they FAIL before proceeding
 
-- [ ] T010 [P] [US3] Add failing warning indicator tests to frontend/src/components/InventoryTable.test.tsx: expired item (date ≤ today) shows TriangleAlert icon adjacent to name, future-dated item shows no icon, item with no expiration date shows no icon
+- [X] T010 [P] [US3] Add failing warning indicator tests to frontend/src/components/InventoryTable.test.tsx: expired item (date ≤ today) shows TriangleAlert icon adjacent to name, future-dated item shows no icon, item with no expiration date shows no icon
 
 ### Implementation for User Story 3
 
-- [ ] T011 [US3] Render `TriangleAlert` icon from `lucide-react` inline next to item name in frontend/src/components/InventoryTable.tsx only when `isExpired(item)` is true; apply `text-destructive` class for visual consistency with the existing Expired badge
+- [X] T011 [US3] Render `TriangleAlert` icon from `lucide-react` inline next to item name in frontend/src/components/InventoryTable.tsx only when `isExpired(item)` is true; apply `text-destructive` class for visual consistency with the existing Expired badge
 
 **Checkpoint**: Expired items display the warning icon; non-expired and undated items do not; all T010 tests pass.
 
@@ -85,8 +85,8 @@
 
 **Purpose**: Verify overall quality, coverage, and acceptance criteria across all three user stories.
 
-- [ ] T012 [P] Run frontend test coverage report via `npm run coverage` in frontend/ and verify ≥ 80% coverage for all new and modified logic (InventoryTable.tsx sort + indicator, ItemDetailPage.tsx)
-- [ ] T013 Verify all items in the quickstart.md acceptance checklist against the running application (backend on port 5007, frontend on port 5173 at http://localhost:5173)
+- [X] T012 [P] Run frontend test coverage report via `npm run coverage` in frontend/ and verify ≥ 80% coverage for all new and modified logic (InventoryTable.tsx sort + indicator, ItemDetailPage.tsx)
+- [X] T013 Verify all items in the quickstart.md acceptance checklist against the running application (backend on port 5007, frontend on port 5173 at http://localhost:5173)
 
 ---
 

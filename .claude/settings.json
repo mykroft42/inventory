@@ -80,7 +80,12 @@
       "Bash(powershell.exe -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
       "Bash(powershell.exe -File \".specify/extensions/git/scripts/powershell/auto-commit.ps1\" \"after_plan\")",
       "PowerShell(.\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1 -Json)",
-      "PowerShell(.\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1 after_tasks)"
+      "PowerShell(.\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1 after_tasks)",
+      "PowerShell(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "PowerShell(cd frontend && npm test -- --reporter=verbose 2>&1 | Select-String -Pattern \"\\(PASS|FAIL|✓|✗|×|√|three-tier|FAILED|Error\\)\" | Select-Object -First 50)",
+      "PowerShell(cd c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npm test -- --run --reporter=verbose 2>&1 | Select-Object -Last 70)",
+      "PowerShell(cd c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\frontend && npm test -- --run --reporter=verbose 2>&1 | Select-Object -Last 80)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_implement)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
