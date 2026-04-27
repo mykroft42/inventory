@@ -91,7 +91,13 @@
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_clarify)",
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\setup-plan.ps1\" -Json)",
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
-      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_plan)"
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" after_plan)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json)",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\initialize-repo.ps1\")",
+      "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" \"after_analyze\")",
+      "Bash(git -C \"c:/Users/mykro/projects/inventory\" status --short)",
+      "Bash(git -C \"c:/Users/mykro/projects/inventory\" add .specify/memory/constitution.md specs/007-edit-item-fields/plan.md specs/007-edit-item-fields/tasks.md)",
+      "Bash(git -C \"c:/Users/mykro/projects/inventory\" commit -m \"[Spec Kit] Add analysis report\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",

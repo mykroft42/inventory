@@ -19,7 +19,7 @@
 
 **Purpose**: Establish a green baseline before introducing any changes.
 
-- [ ] T001 Run full test suite to confirm green baseline before beginning work (`cd frontend && npm test` and `cd backend.Tests && dotnet test`)
+- [x] T001 Run full test suite to confirm green baseline before beginning work (`cd frontend && npm test` and `cd backend.Tests && dotnet test`)
 
 ---
 
@@ -29,10 +29,10 @@
 
 **⚠️ CRITICAL**: Must complete before US1 or US2 can be tested end-to-end against a real backend.
 
-- [ ] T002 Write failing backend integration test in backend.Tests/InventoryControllerTests.cs asserting that PUT /api/inventory/{id} with a past ExpirationDate returns 204 (not 400)
-- [ ] T003 Remove the `[CustomValidation(typeof(InventoryItem), nameof(ValidateExpirationDate))]` attribute and the `ValidateExpirationDate` static method from backend/Models/InventoryItem.cs (makes T002 pass)
-- [ ] T004 [P] Remove or update tests in backend.Tests/InventoryControllerTests.cs that assert a past ExpirationDate returns 400
-- [ ] T005 [P] Inspect backend.Tests/InventoryServiceTests.cs and remove or update any assertions that a past ExpirationDate is rejected
+- [x] T002 Write failing backend integration test in backend.Tests/InventoryControllerTests.cs asserting that PUT /api/inventory/{id} with a past ExpirationDate returns 204 (not 400)
+- [x] T003 Remove the `[CustomValidation(typeof(InventoryItem), nameof(ValidateExpirationDate))]` attribute and the `ValidateExpirationDate` static method from backend/Models/InventoryItem.cs (makes T002 pass)
+- [x] T004 [P] Remove or update tests in backend.Tests/InventoryControllerTests.cs that assert a past ExpirationDate returns 400
+- [x] T005 [P] Inspect backend.Tests/InventoryServiceTests.cs and remove or update any assertions that a past ExpirationDate is rejected
 
 **Checkpoint**: All backend tests pass; PUT with a past ExpirationDate returns 204 No Content.
 

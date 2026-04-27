@@ -121,4 +121,30 @@ public class InventoryControllerTests : IClassFixture<CustomWebApplicationFactor
         var restoreResp = await _client.PatchAsync($"/api/inventory/{created.Id}/restore", null);
         Assert.Equal(HttpStatusCode.OK, restoreResp.StatusCode);
     }
+
+    // --- Edit item fields (007) ---
+
+    [Fact]
+    public async Task Update_WithPastExpirationDate_Returns204()
+    {
+        var newItem = new { Name = "Past Date Item", Quantity = 2, Category = 0 };
+        var createResp = await _client.PostAsJsonAsync("/api/inventory", newItem);
+        Assert.Equal(HttpStatusCode.Created, createResp.StatusCode);
+        var created = await createResp.Content.ReadFromJsonAsync<InventoryItem>();
+        Assert.NotNull(created);
+
+        var updateBody = new
+        {
+            id = created.Id,
+            name = created.Name,
+            quantity = created.Quantity,
+            category = created.Category,
+            expirationDate = DateTime.UtcNow.AddYears(-1).ToString("yyyy-MM-ddTHH:mm:ss"),
+            createdAt = created.CreatedAt,
+            updatedAt = created.UpdatedAt,
+            deletedAt = (DateTime?)null
+        };
+        var putResp = await _client.PutAsJsonAsync($"/api/inventory/{created.Id}", updateBody);
+        Assert.Equal(HttpStatusCode.NoContent, putResp.StatusCode);
+    }
 }
