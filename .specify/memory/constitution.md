@@ -1,29 +1,29 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.1.0
-Bump rationale: MINOR — new principle added (VI. Mobile-First Web Frontend), existing
-  principles materially expanded with concrete tech stack and testing standards,
-  TODO(TECH_STACK) resolved.
+Version change: 1.1.0 → 1.1.1
+Bump rationale: PATCH — clarification only; Vitest added as an explicitly permitted
+  Jest-compatible alternative under Principle II. No principle is redefined or removed.
+  The testing requirement semantics are unchanged (RTL, TDD, Red-Green-Refactor,
+  coverage thresholds all remain). Vitest implements the same API as Jest (describe,
+  test, expect, vi.mock ≡ jest.mock) and is already in use across the project.
 
 Modified principles:
-  - II. Test-Driven Development → II. Test-Driven Development & Coverage
-    (expanded: coverage thresholds, tool mandates for xUnit/.NET and Jest/React)
-  - IV. Simplicity & YAGNI → IV. Clean Code & Maintainability
-    (expanded: SOLID principles, naming conventions, PR review gate added)
-Added principles:
-  - VI. Mobile-First Web Frontend (new)
+  - II. Test-Driven Development & Coverage
+    (frontend testing framework line expanded: "Jest or Vitest (Jest-compatible)")
+Added principles: none
 Removed principles: none
 Added sections: none
 Removed sections: none
 
 Templates requiring updates:
-  - .specify/templates/plan-template.md ✅ Constitution Check section references principles I–VI
-  - .specify/templates/spec-template.md ✅ No structural changes required
-  - .specify/templates/tasks-template.md ✅ Task phases align with all six principles
+  - .specify/templates/plan-template.md ✅ No changes required (no framework references)
+  - .specify/templates/spec-template.md ✅ No changes required
+  - .specify/templates/tasks-template.md ✅ No changes required
 
 Follow-up TODOs:
-  - None — TODO(TECH_STACK) resolved by this amendment.
+  - Feature 007 plan.md Constitution Check (Principle II row) was previously marked
+    ✅ Pass despite using Vitest; it is now correctly passing under this clarified rule.
 -->
 
 # Inventory Constitution
@@ -51,7 +51,10 @@ implementation commit. The Red-Green-Refactor cycle MUST be followed.
 - Code coverage for the backend MUST meet or exceed **80%** on business logic layers.
 
 **Frontend (React)**:
-- Testing framework: Jest + React Testing Library.
+- Testing framework: Jest or Vitest (Jest-compatible) + React Testing Library.
+  Vitest is explicitly permitted as an alternative to Jest; both implement the same
+  API (`describe`, `test`, `expect`, `vi.mock` / `jest.mock`) and are interchangeable
+  for the purposes of this principle.
 - All non-trivial components MUST have rendering and interaction tests.
 - Critical user journeys MUST have end-to-end tests (Playwright or Cypress).
 - Code coverage for frontend business logic MUST meet or exceed **80%**.
@@ -188,4 +191,4 @@ the PR is opened.
 Use `.specify/memory/constitution.md` as the authoritative governance reference during
 all `/speckit-*` command execution.
 
-**Version**: 1.1.0 | **Ratified**: 2026-04-19 | **Last Amended**: 2026-04-19
+**Version**: 1.1.1 | **Ratified**: 2026-04-19 | **Last Amended**: 2026-04-25

@@ -10,7 +10,7 @@ Add always-visible category dropdown and expiration date picker controls to the 
 ## Technical Context
 
 **Language/Version**: TypeScript (React 18) — frontend; C# / .NET 10 (ASP.NET Core) — backend
-**Primary Dependencies**: React Router, shadcn/ui (Select, Input, Button), Vitest + React Testing Library (frontend); xUnit, WebApplicationFactory (backend)
+**Primary Dependencies**: React Router, shadcn/ui (Select, Input, Button), Vitest + React Testing Library, Playwright (E2E) (frontend); xUnit, WebApplicationFactory (backend)
 **Storage**: Existing database via Entity Framework Core — no schema changes
 **Testing**: Vitest + React Testing Library (frontend); xUnit integration tests (backend)
 **Target Platform**: Web application (mobile-first, WCAG 2.1 AA)
@@ -68,10 +68,11 @@ frontend/
 │   └── pages/
 │       ├── ItemDetailPage.tsx     # Add draft state, controls, Save button
 │       └── ItemDetailPage.test.tsx # Add new acceptance scenario tests
-└── (no new files or routes)
+└── e2e/
+    └── item-detail-edit.spec.ts   # New — Playwright E2E tests (Principle II)
 ```
 
-**Structure Decision**: Web application (Option 2). Only the frontend page component and backend model are modified. No new files, routes, components, or services are introduced.
+**Structure Decision**: Web application (Option 2). Only the frontend page component and backend model are modified. No new routes, components, or services are introduced. One new file is added: `frontend/e2e/item-detail-edit.spec.ts` for Playwright E2E tests required by Constitution Principle II.
 
 ## Complexity Tracking
 
