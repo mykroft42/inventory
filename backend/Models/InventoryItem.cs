@@ -25,7 +25,6 @@ public class InventoryItem
     
     public Category? Category { get; set; }
 
-    [CustomValidation(typeof(InventoryItem), nameof(ValidateExpirationDate))]
     public DateTime? ExpirationDate { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -33,13 +32,4 @@ public class InventoryItem
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? DeletedAt { get; set; }
-
-    public static ValidationResult? ValidateExpirationDate(DateTime? expirationDate, ValidationContext context)
-    {
-        if (expirationDate.HasValue && expirationDate.Value < DateTime.UtcNow.Date)
-        {
-            return new ValidationResult("Expiration date cannot be in the past");
-        }
-        return ValidationResult.Success;
-    }
 }
