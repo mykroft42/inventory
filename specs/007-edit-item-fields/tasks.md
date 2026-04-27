@@ -48,14 +48,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation begins**
 
-- [ ] T006 [US1] Write failing Vitest tests for US1 acceptance scenarios in frontend/src/pages/ItemDetailPage.test.tsx: (a) category Select renders showing the current category with options Groceries, Medications, Consumables, and an unset option; (b) selecting a new category and clicking Save calls `inventoryApi.update()` with the new category in the payload; (c) successful save updates the displayed category without navigation; (d) save failure shows an error message and reverts the Select to the previous value; (e) selecting the unset option and saving sends `null` as category; (f) no editable input for item name or quantity is rendered on the page (FR-008); (g) clicking Save with no draft changes (no-op) still calls `inventoryApi.update()` and shows no error message
+- [x] T006 [US1] Write failing Vitest tests for US1 acceptance scenarios in frontend/src/pages/ItemDetailPage.test.tsx: (a) category Select renders showing the current category with options Groceries, Medications, Consumables, and an unset option; (b) selecting a new category and clicking Save calls `inventoryApi.update()` with the new category in the payload; (c) successful save updates the displayed category without navigation; (d) save failure shows an error message and reverts the Select to the previous value; (e) selecting the unset option and saving sends `null` as category; (f) no editable input for item name or quantity is rendered on the page (FR-008); (g) clicking Save with no draft changes (no-op) still calls `inventoryApi.update()` and shows no error message
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Add `draftCategory: Category | null` and `saveState: 'idle' | 'saving' | 'error'` state initialized from the loaded item in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T008 [US1] Replace the static category display with a shadcn/ui Select bound to `draftCategory` with options Groceries, Medications, Consumables, and sentinel value `"none"` for the unset state in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T009 [US1] Add a Save button that sets `saveState` to `'saving'` and disables itself while saving, calls `inventoryApi.update()` with the full item body using draft values, updates `PageState` item and sets `saveState` to `'idle'` on success, and resets `draftCategory` to `item.category` and sets `saveState` to `'error'` on failure in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T010 [US1] Add an error message element with `role="alert"` and text "Failed to save changes. Please try again." positioned above the Save button, rendered only when `saveState === 'error'` in frontend/src/pages/ItemDetailPage.tsx
+- [x] T007 [US1] Add `draftCategory: Category | null` and `saveState: 'idle' | 'saving' | 'error'` state initialized from the loaded item in frontend/src/pages/ItemDetailPage.tsx
+- [x] T008 [US1] Replace the static category display with a shadcn/ui Select bound to `draftCategory` with options Groceries, Medications, Consumables, and sentinel value `"none"` for the unset state in frontend/src/pages/ItemDetailPage.tsx
+- [x] T009 [US1] Add a Save button that sets `saveState` to `'saving'` and disables itself while saving, calls `inventoryApi.update()` with the full item body using draft values, updates `PageState` item and sets `saveState` to `'idle'` on success, and resets `draftCategory` to `item.category` and sets `saveState` to `'error'` on failure in frontend/src/pages/ItemDetailPage.tsx
+- [x] T010 [US1] Add an error message element with `role="alert"` and text "Failed to save changes. Please try again." positioned above the Save button, rendered only when `saveState === 'error'` in frontend/src/pages/ItemDetailPage.tsx
 
 **Checkpoint**: User Story 1 is fully functional and independently testable — category can be changed, saved, and confirmed after page reload.
 
@@ -71,13 +71,13 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation begins**
 
-- [ ] T011 [US2] Write failing Vitest tests for US2 acceptance scenarios in frontend/src/pages/ItemDetailPage.test.tsx: (a) date input renders showing the current expirationDate as YYYY-MM-DD (or empty if unset); (b) picking a new date and clicking Save calls `inventoryApi.update()` with an ISO datetime string in the payload; (c) clearing the date input and clicking Save sends `null` as expirationDate; (d) saving a past date succeeds without frontend rejection; (e) save failure shows an error message and reverts the date input to its previous value
+- [x] T011 [US2] Write failing Vitest tests for US2 acceptance scenarios in frontend/src/pages/ItemDetailPage.test.tsx: (a) date input renders showing the current expirationDate as YYYY-MM-DD (or empty if unset); (b) picking a new date and clicking Save calls `inventoryApi.update()` with an ISO datetime string in the payload; (c) clearing the date input and clicking Save sends `null` as expirationDate; (d) saving a past date succeeds without frontend rejection; (e) save failure shows an error message and reverts the date input to its previous value
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Add `draftExpirationDate: string` state (YYYY-MM-DD format; `""` = unset) initialized from `item.expirationDate` (converted from ISO to YYYY-MM-DD, or `""` if null) in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T013 [US2] Replace the static expiration date display with a shadcn/ui Input type="date" bound to `draftExpirationDate` in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T014 [US2] Update the `inventoryApi.update()` call in the Save handler to map `draftExpirationDate`: `""` → `null`, `"YYYY-MM-DD"` → `"YYYY-MM-DDT00:00:00"`; also reset `draftExpirationDate` to the item's last-saved value on save failure in frontend/src/pages/ItemDetailPage.tsx
+- [x] T012 [US2] Add `draftExpirationDate: string` state (YYYY-MM-DD format; `""` = unset) initialized from `item.expirationDate` (converted from ISO to YYYY-MM-DD, or `""` if null) in frontend/src/pages/ItemDetailPage.tsx
+- [x] T013 [US2] Replace the static expiration date display with a shadcn/ui Input type="date" bound to `draftExpirationDate` in frontend/src/pages/ItemDetailPage.tsx
+- [x] T014 [US2] Update the `inventoryApi.update()` call in the Save handler to map `draftExpirationDate`: `""` → `null`, `"YYYY-MM-DD"` → `"YYYY-MM-DDT00:00:00"`; also reset `draftExpirationDate` to the item's last-saved value on save failure in frontend/src/pages/ItemDetailPage.tsx
 
 **Checkpoint**: User Stories 1 and 2 both work independently — category and expiration date can each be changed, saved, and confirmed after page reload.
 
@@ -87,10 +87,10 @@
 
 **Purpose**: Final accessibility check, full test suite confirmation, and golden-path validation.
 
-- [ ] T015 [P] Verify touch targets for the category Select, date Input, and Save button meet the ≥ 44×44 px minimum on a mobile viewport in frontend/src/pages/ItemDetailPage.tsx
-- [ ] T016 [P] Run full test suite with coverage and confirm all tests pass and coverage meets ≥80% threshold: `cd frontend && npm test -- --coverage` and `cd backend.Tests && dotnet test --collect:"XPlat Code Coverage"`
-- [ ] T017 Run quickstart.md golden-path validation: start backend and frontend, open an item detail page, change both category and expiration date, click Save, reload, and confirm both values persisted
-- [ ] T018 Write Playwright E2E tests covering the two critical user journeys in frontend/e2e/item-detail-edit.spec.ts: if Playwright is not yet installed run `cd frontend && npm install -D @playwright/test && npx playwright install` first; (a) navigate to an item detail page, select a new category, click Save, reload, assert updated category is displayed; (b) navigate to an item detail page, set a new expiration date, click Save, reload, assert updated date is displayed and item appears in correct sort tier on the inventory list
+- [x] T015 [P] Verify touch targets for the category Select, date Input, and Save button meet the ≥ 44×44 px minimum on a mobile viewport in frontend/src/pages/ItemDetailPage.tsx
+- [x] T016 [P] Run full test suite with coverage and confirm all tests pass and coverage meets ≥80% threshold: `cd frontend && npm test -- --coverage` and `cd backend.Tests && dotnet test --collect:"XPlat Code Coverage"`
+- [x] T017 Run quickstart.md golden-path validation: start backend and frontend, open an item detail page, change both category and expiration date, click Save, reload, and confirm both values persisted
+- [x] T018 Write Playwright E2E tests covering the two critical user journeys in frontend/e2e/item-detail-edit.spec.ts: if Playwright is not yet installed run `cd frontend && npm install -D @playwright/test && npx playwright install` first; (a) navigate to an item detail page, select a new category, click Save, reload, assert updated category is displayed; (b) navigate to an item detail page, set a new expiration date, click Save, reload, assert updated date is displayed and item appears in correct sort tier on the inventory list
 
 ---
 

@@ -97,7 +97,9 @@
       "PowerShell(& \"c:\\\\Users\\\\mykro\\\\projects\\\\inventory\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1\" \"after_analyze\")",
       "Bash(git -C \"c:/Users/mykro/projects/inventory\" status --short)",
       "Bash(git -C \"c:/Users/mykro/projects/inventory\" add .specify/memory/constitution.md specs/007-edit-item-fields/plan.md specs/007-edit-item-fields/tasks.md)",
-      "Bash(git -C \"c:/Users/mykro/projects/inventory\" commit -m \"[Spec Kit] Add analysis report\")"
+      "Bash(git -C \"c:/Users/mykro/projects/inventory\" commit -m \"[Spec Kit] Add analysis report\")",
+      "PowerShell(bash .specify/extensions/git/scripts/bash/auto-commit.sh after_implement)",
+      "PowerShell(& .\\\\.specify\\\\extensions\\\\git\\\\scripts\\\\powershell\\\\auto-commit.ps1 after_implement)"
     ],
     "additionalDirectories": [
       "c:\\Users\\mykro\\projects\\inventory\\specs\\005-inventory-ui-overhaul",
